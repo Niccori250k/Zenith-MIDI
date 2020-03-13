@@ -51,6 +51,7 @@ namespace ZenithEngine
 
     public class TimeSignature
     {
+        public long pos;
         public int numerator { get; internal set; }
         public int denominator { get; internal set; }
     }
@@ -854,6 +855,7 @@ namespace ZenithEngine
                         int dd = reader.ReadFast();
                         dd = (int)Math.Pow(2, dd);
                         foundTimeSig = new TimeSignature() { numerator = nn, denominator = dd };
+                        foundTimeSig.pos = trackTime;
                         reader.Skip(2);
                     }
                     else if (command == 0x59)

@@ -88,6 +88,7 @@ namespace NoteCountRender
             }
             textEngine.SetFont(font, fontStyle, fontSize);
             noteCount = 0;
+            Mplph = 0;
             nps = 0;
             frames = 0;
             notesHit = new LinkedList<long>();
@@ -203,8 +204,7 @@ namespace NoteCountRender
                 string sep = "";
                 if (separator == Commas.Comma) sep = "#,##";
 
-                string bpmtemp = Math.Round(tempo * 100).ToString();
-                text = text.Replace("{bpm}", bpmtemp.Insert(bpmtemp.Length - 2, "."));
+                text = text.Replace("{bpm}", (Math.Round(tempo * 100) / 100).ToString("0.00"));
 
                 text = text.Replace("{nc}", noteCount.ToString(sep + "0"));
                 text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + "0"));

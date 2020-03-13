@@ -1,2 +1,2 @@
 # Zenith-Note-Count-Render
-Note counter for Zenith
+Modded Note counter for Zenith

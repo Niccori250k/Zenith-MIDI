@@ -23,7 +23,7 @@ namespace NoteCountRender
     }
     public class Settings
     {
-        public string text = "Notes: {nc} / {tn}\nBPM: {bpm}\nNPS: {nps}\nPPQ: {ppq}\nPolyphony: {plph}\nSeconds: {seconds}\nTime: {time}\nTicks: {ticks}";
+        public string text = "TIME:{currtime}/{totaltime}  BPM:{bpm}  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
         public Alignments textAlignment = Alignments.TopLeft;
 
         public int fontSize = 40;
