@@ -90,6 +90,7 @@ namespace NoteCountRender
             noteCount = 0;
             Mplph = 0;
             nps = 0;
+            Mnps = 0;
             frames = 0;
             notesHit = new LinkedList<long>();
             Initialized = true;
@@ -112,6 +113,7 @@ namespace NoteCountRender
 
         long noteCount = 0;
         double nps = 0;
+        double Mnps = 0;
         int frames = 0;
         long currentNotes = 0;
         long polyphony = 0;
@@ -178,6 +180,7 @@ namespace NoteCountRender
                 notesHit.AddLast(currentNotes);
                 while (notesHit.Count > renderSettings.fps) notesHit.RemoveFirst();
                 nps = notesHit.Sum();
+                if (Mnps < nps) Mnps = nps;
             }
 
             double tempo = Tempo;
@@ -204,13 +207,14 @@ namespace NoteCountRender
                 string sep = "";
                 if (separator == Commas.Comma) sep = "#,##";
 
-                text = text.Replace("{bpm}", (Math.Round(tempo * 100) / 100).ToString("0.00"));
+                text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString("0.00"));
 
                 text = text.Replace("{nc}", noteCount.ToString(sep + "0"));
                 text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + "0"));
                 text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + "0"));
 
-                text = text.Replace("{nps}", nps.ToString(sep + "0"));
+                text = text.Replace("{nps}", Math.Round(nps).ToString(sep + "0"));
+                text = text.Replace("{mnps}", Math.Round(Mnps).ToString(sep + "0"));
                 text = text.Replace("{plph}", polyphony.ToString(sep + "0"));
                 text = text.Replace("{mplph}", Mplph.ToString(sep + "0"));
 
