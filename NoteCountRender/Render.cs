@@ -71,8 +71,8 @@ namespace NoteCountRender
             Console.WriteLine("Disposed of NoteCountRender");
         }
 
-        int fontSize = 40;
-        string font = "Arial";
+        int fontSize = 48;
+        string font = "MS UI Gothic";
         public System.Drawing.FontStyle fontStyle = System.Drawing.FontStyle.Regular;
 
         StreamWriter outputCsv = null;
