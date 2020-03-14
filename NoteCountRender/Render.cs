@@ -72,7 +72,7 @@ namespace NoteCountRender
         }
 
         int fontSize = 48;
-        string font = "MS  UI Gothic";
+        string font = "MS UI Gothic";
         public System.Drawing.FontStyle fontStyle = System.Drawing.FontStyle.Regular;
 
         StreamWriter outputCsv = null;
