@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using ZenithEngine;
@@ -187,12 +188,13 @@ namespace NoteCountRender
 
             int seconds = (int)Math.Floor((double)frames / renderSettings.fps);
             int milliseconds = (int)Math.Floor((double)frames * 1000 / renderSettings.fps);
-            int totalsec = (int)Math.Floor(CurrentMidi.secondsLength);
+            int totalsec = (int)Math.Floor(CurrentMidi.secondsLength); 
             //int totalmsec = (int)Math.Floor(CurrentMidi.millisecondsLength);
             if (seconds > totalsec) seconds = totalsec;
-            TimeSpan time = new TimeSpan(0, 0, 0, 0, milliseconds);
+            TimeSpan time = new TimeSpan(0, 0, seconds);
+            TimeSpan miltime = new TimeSpan(0, 0, 0, 0, milliseconds);
             TimeSpan totaltime = new TimeSpan(0, 0, totalsec);
-            if (milliseconds > (totalsec * 1000)) time = totaltime;
+            if (time > totaltime) time = totaltime;
             if (!renderSettings.Paused) frames++;
 
             double barDivide = (double)CurrentMidi.division * CurrentMidi.timeSig.numerator / CurrentMidi.timeSig.denominator * 4;
@@ -207,6 +209,13 @@ namespace NoteCountRender
             Func<string, Commas, string> replace = (text, separator) =>
             {
                 string sep = "";
+                if (Regex.IsMatch(text, @"{tmiltime}\.(\d{3})[^\d]"))
+                {
+                    Match match = Regex.Match(text, @"{tmiltime}\.(\d{3})[^\d]");
+                    TimeSpan totalmiltime = new TimeSpan(0, 0, 0, totalsec, int.Parse(match.Groups[1].Value));
+                    if (miltime > totalmiltime) miltime = totalmiltime;
+                    text = Regex.Replace(text, @"{tmiltime}\.\d{3}", totalmiltime.ToString("mm\\:ss\\.fff"));
+                }
                 if (separator == Commas.Comma) sep = "#,##";
 
                 text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString("0.00"));
@@ -221,9 +230,10 @@ namespace NoteCountRender
                 text = text.Replace("{mplph}", Mplph.ToString(sep + "0"));
 
                 text = text.Replace("{currsec}", seconds.ToString(sep + "0.0"));
-                text = text.Replace("{currtime}", time.ToString("mm\\:ss\\.fff"));
+                text = text.Replace("{currtime}", time.ToString("mm\\:ss"));
+                text = text.Replace("{cmiltime}", miltime.ToString("mm\\:ss\\.fff"));
                 text = text.Replace("{totalsec}", totalsec.ToString(sep + "0.0"));
-                text = text.Replace("{totaltime}", totaltime.ToString("mm\\:ss\\.fff"));
+                text = text.Replace("{totaltime}", totaltime.ToString("mm\\:ss"));
                 text = text.Replace("{remsec}", (totalsec - seconds).ToString(sep + "0.0"));
                 text = text.Replace("{remtime}", (totaltime - time).ToString("mm\\:ss"));
 
