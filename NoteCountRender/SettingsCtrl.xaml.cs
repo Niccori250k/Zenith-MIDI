@@ -33,22 +33,24 @@ BPM: {bpm}
 NPS: {nps}
 PPQ: {ppq}
 Polyphony: {plph}
-Time: {currtime}";
+Time: {cmiltime}";
         string fullText = @"Notes: {nc} / {tn} / {nr}
 BPM: {bpm}
-NPS: {nps}
-Polyphony: {plph}
+NPS: {mnps} - {nps}
+Polyphony: {mplph} - {plph}
 Seconds: {currsec} / {totalsec} / {remsec}
 Time: {currtime} / {totaltime} / {remtime}
+Time: {cmiltime} / {tmiltime}.000 / {remtime}
 Ticks: {currticks} / {totalticks} / {remticks}
 Bars: {currbars} / {totalbars} / {rembars}
 PPQ: {ppq}
 Time Signature: {tsn}/{tsd}
 Average NPS: {avgnps}";
+        string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
 
         bool initialised = false;
 
-        string templateFolder = "Plugins\\Assets\\NoteCounter\\Templates";
+        string templateFolder = "Plugins\\Assets\\NoteCounterMod\\Templates";
 
         Dictionary<FontStyle, string> fontStyles = new Dictionary<FontStyle, string>() {
             { System.Drawing.FontStyle.Regular, "Regular" },
@@ -161,12 +163,17 @@ Average NPS: {avgnps}";
             }
             try
             {
-                File.WriteAllText(Path.Combine(templateFolder, "default.txt"), defText);
+                File.WriteAllText(Path.Combine(templateFolder, "default(old).txt"), defText);
             }
             catch { }
             try
             {
                 File.WriteAllText(Path.Combine(templateFolder, "full.txt"), fullText);
+            }
+            catch { }
+            try
+            {
+                File.WriteAllText(Path.Combine(templateFolder, "MIDITrail+.txt"), mtexText);
             }
             catch { }
             var files = Directory.GetFiles(templateFolder).Where(f => f.EndsWith(".txt"));
@@ -180,7 +187,7 @@ Average NPS: {avgnps}";
             }
             foreach (var i in templates.Items)
             {
-                if ((string)((ComboBoxItem)i).Content == "default")
+                if ((string)((ComboBoxItem)i).Content == "MIDITrail+")
                 {
                     templates.SelectedItem = i;
                     break;
