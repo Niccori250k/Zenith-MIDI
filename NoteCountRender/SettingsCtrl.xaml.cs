@@ -40,12 +40,13 @@ NPS: {mnps} - {nps}
 Polyphony: {mplph} - {plph}
 Seconds: {currsec} / {totalsec} / {remsec}
 Time: {currtime} / {totaltime} / {remtime}
-Time: {cmiltime} / {tmiltime}.000 / {remtime}
+Time: {cmiltime} / {tmiltime}.000 / {rmiltime}
 Ticks: {currticks} / {totalticks} / {remticks}
 Bars: {currbars} / {totalbars} / {rembars}
 PPQ: {ppq}
 Time Signature: {tsn}/{tsd}
-Average NPS: {avgnps}";
+Average NPS: {avgnps}
+Frames: {currframes} / {totalframes}";
         string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
 
         bool initialised = false;
