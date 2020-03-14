@@ -202,8 +202,8 @@ namespace NoteCountRender
             long limMidiTime = (long)midiTime;
             if (limMidiTime > CurrentMidi.tickLength) limMidiTime = CurrentMidi.tickLength;
 
-            long bar = (long)Math.Floor(limMidiTime / barDivide);
-            long maxbar = (long)Math.Floor(CurrentMidi.tickLength / barDivide);
+            long bar = (long)Math.Ceiling(limMidiTime / barDivide);
+            long maxbar = (long)Math.Ceiling(CurrentMidi.tickLength / barDivide);
             if (bar > maxbar) bar = maxbar;
 
             Func<string, Commas, string> replace = (text, separator) =>
