@@ -33,7 +33,7 @@ namespace NoteCountRender
         }
         #endregion
 
-        public string Name => "Note Counter";
+        public string Name => "Modded Note Counter";
 
         public string Description => "Generate note counts and other midi statistics";
 
@@ -71,8 +71,8 @@ namespace NoteCountRender
             Console.WriteLine("Disposed of NoteCountRender");
         }
 
-        int fontSize = 40;
-        string font = "Arial";
+        int fontSize = 48;
+        string font = "MS  UI Gothic";
         public System.Drawing.FontStyle fontStyle = System.Drawing.FontStyle.Regular;
 
         StreamWriter outputCsv = null;
@@ -186,11 +186,13 @@ namespace NoteCountRender
             double tempo = Tempo;
 
             int seconds = (int)Math.Floor((double)frames / renderSettings.fps);
+            int milliseconds = (int)Math.Floor((double)frames * 1000 / renderSettings.fps);
             int totalsec = (int)Math.Floor(CurrentMidi.secondsLength);
+            //int totalmsec = (int)Math.Floor(CurrentMidi.millisecondsLength);
             if (seconds > totalsec) seconds = totalsec;
-            TimeSpan time = new TimeSpan(0, 0, seconds);
+            TimeSpan time = new TimeSpan(0, 0, 0, 0, milliseconds);
             TimeSpan totaltime = new TimeSpan(0, 0, totalsec);
-            if (time > totaltime) time = totaltime;
+            if (milliseconds > (totalsec * 1000)) time = totaltime;
             if (!renderSettings.Paused) frames++;
 
             double barDivide = (double)CurrentMidi.division * CurrentMidi.timeSig.numerator / CurrentMidi.timeSig.denominator * 4;
@@ -219,9 +221,9 @@ namespace NoteCountRender
                 text = text.Replace("{mplph}", Mplph.ToString(sep + "0"));
 
                 text = text.Replace("{currsec}", seconds.ToString(sep + "0.0"));
-                text = text.Replace("{currtime}", time.ToString("mm\\:ss"));
+                text = text.Replace("{currtime}", time.ToString("mm\\:ss\\.fff"));
                 text = text.Replace("{totalsec}", totalsec.ToString(sep + "0.0"));
-                text = text.Replace("{totaltime}", totaltime.ToString("mm\\:ss"));
+                text = text.Replace("{totaltime}", totaltime.ToString("mm\\:ss\\.fff"));
                 text = text.Replace("{remsec}", (totalsec - seconds).ToString(sep + "0.0"));
                 text = text.Replace("{remtime}", (totaltime - time).ToString("mm\\:ss"));
 
