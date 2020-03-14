@@ -194,10 +194,12 @@ namespace NoteCountRender
             int totalframes = (int)Math.Ceiling(CurrentMidi.secondsLength * renderSettings.fps);
             //int totalmsec = (int)Math.Floor(CurrentMidi.millisecondsLength);
             if (seconds > totalsec) seconds = totalsec;
+            if (dseconds > totaldsec) dseconds = totaldsec;
             TimeSpan time = new TimeSpan(0, 0, seconds);
             TimeSpan miltime = new TimeSpan(0, 0, 0, 0, milliseconds);
             TimeSpan totaltime = new TimeSpan(0, 0, totalsec);
             if (time > totaltime) time = totaltime;
+            if (frames > totalframes) frames = totalframes;
             if (!renderSettings.Paused) frames++;
 
             double barDivide = (double)CurrentMidi.division * CurrentMidi.timeSig.numerator / CurrentMidi.timeSig.denominator * 4;
