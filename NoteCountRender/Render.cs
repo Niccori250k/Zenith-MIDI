@@ -36,7 +36,7 @@ namespace NoteCountRender
 
         public string Name => "Note Counter Mod";
 
-        public string Description => "Generate note counts and other midi statistics";
+        public string Description => "Generate note counts and other midi statistics.\nMod version by Niccori 250k";
 
         public string LanguageDictName { get; } = "notecounter";
 
@@ -269,7 +269,7 @@ namespace NoteCountRender
 
                 text = text.Replace("{np}", (Math.Floor((double)(noteCount * 1000000 / CurrentMidi.noteCount)) / 10000).ToString("00.0000") + "%");
                 text = text.Replace("{ticksp}", (Math.Floor((double)(limMidiTime * 1000000 / CurrentMidi.tickLength)) / 10000).ToString("00.0000") + "%");
-                text = text.Replace("{framesp}", (Math.Floor((double)(frames * 1000000 / totalframes)) / 10000).ToString("00.0000") + "%");
+                text = text.Replace("{timep}", (Math.Floor(miltime.TotalMilliseconds / totalmiltime.TotalMilliseconds * 1000000) / 10000).ToString("00.0000") + "%");
                 return text;
             };
 
