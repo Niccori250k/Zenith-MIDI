@@ -23,11 +23,11 @@ namespace NoteCountRender
     }
     public class Settings
     {
-        public string text = "TIME:{currtime}/{totaltime}  BPM:{bpm}  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
+        public string text = "TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
         public Alignments textAlignment = Alignments.TopLeft;
 
-        public int fontSize = 40;
-        public string fontName = "Arial";
+        public int fontSize = 48;
+        public string fontName = "MS UI Gothic";
         public System.Drawing.FontStyle fontStyle = System.Drawing.FontStyle.Regular;
 
         public Commas thousandSeparator = Commas.Comma;

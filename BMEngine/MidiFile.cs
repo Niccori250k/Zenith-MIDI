@@ -245,6 +245,7 @@ namespace ZenithEngine
 
             time += ticks * multiplier;
 
+            info.millisecondsLength = ticks * ((double)500000 / division) / 1000;
             info.secondsLength = time;
 
             maxTrackTime = tracklens.Max();

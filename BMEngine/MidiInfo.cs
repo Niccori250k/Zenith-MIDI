@@ -15,5 +15,6 @@ namespace ZenithEngine
         public long tickLength;
         public double secondsLength;
         public TimeSignature timeSig = new TimeSignature() { numerator = 4, denominator = 4 };
+        public double millisecondsLength;
     }
 }
