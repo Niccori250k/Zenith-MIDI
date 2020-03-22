@@ -7,8 +7,8 @@
     <ProjectGuid>{5F30BA79-D86B-4FC6-BA76-7CBB9EBBA721}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NoteCountRender</RootNamespace>
-    <AssemblyName>NoteCountRender</AssemblyName>
+    <RootNamespace>NoteCountRenderMod</RootNamespace>
+    <AssemblyName>NoteCountRenderMod</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

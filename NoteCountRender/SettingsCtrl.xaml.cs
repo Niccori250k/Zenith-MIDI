@@ -19,7 +19,7 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace NoteCountRender
+namespace NoteCountRenderMod
 {
     /// <summary>
     /// Interaction logic for SettingsCtrl.xaml

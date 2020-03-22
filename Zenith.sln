@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlatRender", "FlatRender\Fl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiTrailRender", "MidiTrailRender\MidiTrailRender.csproj", "{991E132A-A56D-49AB-BBEE-9828359BB307}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteCountRender", "NoteCountRender\NoteCountRender.csproj", "{5F30BA79-D86B-4FC6-BA76-7CBB9EBBA721}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteCountRenderMod", "NoteCountRender\NoteCountRenderMod.csproj", "{5F30BA79-D86B-4FC6-BA76-7CBB9EBBA721}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexturedRender", "TexturedRender\TexturedRender.csproj", "{ECF72523-79AE-4DD1-9421-60B1D8BCCB9E}"
 EndProject

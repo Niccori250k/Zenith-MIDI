@@ -12,7 +12,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace NoteCountRender
+namespace NoteCountRenderMod
 {
     public class Render : IPluginRender
     {

@@ -182,9 +182,9 @@
       <Project>{991e132a-a56d-49ab-bbee-9828359bb307}</Project>
       <Name>MidiTrailRender</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NoteCountRender\NoteCountRender.csproj">
+    <ProjectReference Include="..\NoteCountRender\NoteCountRenderMod.csproj">
       <Project>{5f30ba79-d86b-4fc6-ba76-7cbb9ebba721}</Project>
-      <Name>NoteCountRender</Name>
+      <Name>NoteCountRenderMod</Name>
     </ProjectReference>
     <ProjectReference Include="..\PFARender\PFARender.csproj">
       <Project>{84e13869-0d33-4a56-a1a8-0b6f12c76081}</Project>
