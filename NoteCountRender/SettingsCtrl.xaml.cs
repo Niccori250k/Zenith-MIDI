@@ -34,7 +34,7 @@ NPS: {nps}
 PPQ: {ppq}
 Polyphony: {plph}
 Time: {cmiltime}";
-        string fullText = @"Notes: {nc} / {tn} / {nr}
+        string fullText = @"Notes: {nc} / {cn} / {tn} / {nr}
 BPM: {bpm}
 NPS: {mnps} - {nps}
 Polyphony: {mplph} - {plph}
