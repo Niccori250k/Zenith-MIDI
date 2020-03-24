@@ -232,6 +232,7 @@ namespace NoteCountRenderMod
                 text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString("0.00"));
 
                 text = text.Replace("{nc}", noteCount.ToString(sep + "0"));
+                text = text.Replace("{cn}", noteCount.ToString(sep + "00000"));
                 text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + "0"));
                 text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + "0"));
 
