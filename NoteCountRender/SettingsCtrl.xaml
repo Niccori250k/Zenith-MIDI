@@ -30,9 +30,9 @@
                         <StackPanel>
                             <DockPanel HorizontalAlignment="Left" LastChildFill="False" Margin="0,0,0,0" VerticalAlignment="Top">
                                 <Label DockPanel.Dock="Left" Content="{DynamicResource fontSize}" VerticalAlignment="Top"/>
-                                <ui:NumberSelect x:Name="fontSize" Value="1"  Maximum="15360" Minimum="1" HorizontalAlignment="Left" Width="99" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0" ValueChanged="FontSize_ValueChanged"  />
+                                <ui:NumberSelect x:Name="fontSize" Value="1"  Maximum="15360" Minimum="1" HorizontalAlignment="Left" Width="64" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0" ValueChanged="FontSize_ValueChanged" Loaded="fontSize_Loaded"  />
                                 <Label DockPanel.Dock="Left" Content="{DynamicResource font}" VerticalAlignment="Top"/>
-                                <ComboBox x:Name="fontSelect" DockPanel.Dock="Left" Width="120" Margin="5,0,0,0" SelectionChanged="FontSelect_SelectionChanged"/>
+                                <ComboBox x:Name="fontSelect" DockPanel.Dock="Left" Width="284" Margin="5,0,0,0" SelectionChanged="FontSelect_SelectionChanged"/>
                                 <ComboBox x:Name="fontStyle" HorizontalAlignment="Left" Margin="10,0,0,0" Width="120" SelectionChanged="FontStyle_SelectionChanged"/>
                             </DockPanel>
                             <DockPanel HorizontalAlignment="Left" LastChildFill="False" Margin="0,10,0,0" VerticalAlignment="Top" >
@@ -48,7 +48,7 @@
                             </DockPanel>
                             <DockPanel HorizontalAlignment="Left" LastChildFill="False" Margin="0,10,0,0" VerticalAlignment="Top">
                                 <ComboBox x:Name="templates" DockPanel.Dock="Left" Width="120" SelectionChanged="Templates_SelectionChanged"/>
-                                <Button x:Name="reload" Content="{DynamicResource reload}" HorizontalAlignment="Left" Padding="10,0,10,0" DockPanel.Dock="Left" Margin="5,0,0,0" Click="Reload_Click"/>
+                                <!--<Button x:Name="reload" Content="{DynamicResource reload}" HorizontalAlignment="Left" Padding="10,0,10,0" DockPanel.Dock="Left" Margin="5,0,0,0" Click="Reload_Click"/>-->
                                 <Button x:Name="openFolder" Content="{DynamicResource openFolder}" HorizontalAlignment="Left" Padding="10,0,10,0" DockPanel.Dock="Left" Margin="5,0,0,0" Click="openFolder_Click"/>
                             </DockPanel>
                         </StackPanel>

@@ -34,7 +34,7 @@ NPS: {nps}
 PPQ: {ppq}
 Polyphony: {plph}
 Time: {cmiltime}";
-        string fullText = @"Notes: {nc} / {cn} / {tn} / {nr}
+        string fullText = @"Notes: {nc} / {tn} / {nr}
 BPM: {bpm}
 NPS: {mnps} - {nps}
 Polyphony: {mplph} - {plph}
@@ -80,8 +80,10 @@ Time: {timep}";
                 dock.Children.Add(new Label()
                 {
                     Content = font.Name,
+                    FontFamily = new FontFamily(font.Name),
                     Padding = new Thickness(2)
                 });
+                /*
                 dock.Children.Add(new Label()
                 {
                     Content = "AaBbCc123",
@@ -89,6 +91,7 @@ Time: {timep}";
                     Padding = new Thickness(2),
                     VerticalContentAlignment = VerticalAlignment.Center
                 });
+                */
                 var item = new ComboBoxItem()
                 {
                     Content = dock
@@ -250,6 +253,11 @@ Time: {timep}";
             if (useCommas.IsChecked) settings.thousandSeparator = Commas.Comma;
             //if (useDots.IsChecked) settings.thousandSeparator = Commas.Dot;
             if (useNothing.IsChecked) settings.thousandSeparator = Commas.Nothing;
+        }
+
+        private void fontSize_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

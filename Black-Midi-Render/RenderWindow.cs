@@ -332,7 +332,7 @@ void main()
 
         CurrentRendererPointer render;
         GLTextEngine textEngine;
-        public RenderWindow(CurrentRendererPointer renderer, MidiFile midi, RenderSettings settings) : base(16, 9, new GraphicsMode(new ColorFormat(8, 8, 8, 8)), "Render", GameWindowFlags.Default, DisplayDevice.Default)
+        public RenderWindow(CurrentRendererPointer renderer, MidiFile midi, RenderSettings settings) : base(16, 9, new GraphicsMode(new ColorFormat(8, 8, 8, 8)), "Rendering Preview", GameWindowFlags.Default, DisplayDevice.Default)
         {
             Width = (int)(DisplayDevice.Default.Width / 1.5);
             Height = (int)((double)Width / settings.width * settings.height);

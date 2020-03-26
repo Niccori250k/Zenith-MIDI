@@ -177,7 +177,7 @@ namespace Zenith_MIDI
         bool foundOmniMIDI = true;
         bool OmniMIDIDisabled = false;
 
-        string defaultPlugin = "Classic";
+        string defaultPlugin = "NoteCounterMod";
 
         Settings metaSettings = new Settings();
 

@@ -20,7 +20,7 @@ namespace Zenith_MIDI
             try
             {
 #endif
-            Console.Title = "Zenith";
+            Console.Title = "Zenith (MOD version by Niccori 250k)";
             Application app = new Application();
             app.Run(new MainWindow());
 #if !DEBUG

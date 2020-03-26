@@ -10,7 +10,7 @@ namespace MIDITrailRender
     {
         public int firstNote = 0;
         public int lastNote = 128;
-        public double deltaTimeOnScreen = 400;
+        public double deltaTimeOnScreen = 2000;
         public bool sameWidthNotes = true;
 
         public double FOV = 3.1415 / 3;

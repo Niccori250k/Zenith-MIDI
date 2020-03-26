@@ -337,5 +337,10 @@ namespace MIDITrailRender
         {
             profileSelect.SelectedIndex = -1;
         }
+
+        private void noteDeltaScreenTime_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

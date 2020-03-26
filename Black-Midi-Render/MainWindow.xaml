@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto" WindowStyle="None"
-        Title="Zenith" Height="600" Width="900" MinWidth="780" MinHeight="550" Closing="Window_Closing"
+        Title="Zenith (MOD version by Niccori 250k)" Height="600" Width="900" MinWidth="780" MinHeight="550" Closing="Window_Closing"
         Background="#171717" Name="mainWindow">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="40"/>
