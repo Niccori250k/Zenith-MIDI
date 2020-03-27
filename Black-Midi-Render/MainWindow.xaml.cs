@@ -854,6 +854,14 @@ namespace Zenith_MIDI
             string preset = (string)((ComboBoxItem)resolutionPreset.SelectedItem).Content;
             switch (preset)
             {
+                case "360p":
+                    viewWidth.Value = 640;
+                    viewHeight.Value = 360;
+                    break;
+                case "540p":
+                    viewWidth.Value = 960;
+                    viewHeight.Value = 540;
+                    break;
                 case "720p":
                     viewWidth.Value = 1280;
                     viewHeight.Value = 720;
@@ -881,6 +889,10 @@ namespace Zenith_MIDI
                 case "16k":
                     viewWidth.Value = 15360;
                     viewHeight.Value = 8640;
+                    break;
+                case "32k":
+                    viewWidth.Value = 30720;
+                    viewHeight.Value = 17280;
                     break;
                 default:
                     break;
@@ -1030,6 +1042,11 @@ namespace Zenith_MIDI
         {
             ZenithUpdates.KillAllProcesses();
             Process.Start(ZenithUpdates.InstallerPath, "update -Reopen");
+        }
+
+        private void viewFps_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

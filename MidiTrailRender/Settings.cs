@@ -13,7 +13,7 @@ namespace MIDITrailRender
         public double deltaTimeOnScreen = 2000;
         public bool sameWidthNotes = true;
 
-        public double FOV = 3.1415 / 3;
+        public double FOV = Math.PI / 3;
         public double viewHeight = 0.5;
         public double viewOffset = 0.4;
         public double viewPan = 0.0;
