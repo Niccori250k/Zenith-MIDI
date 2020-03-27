@@ -242,7 +242,7 @@
                                             <DockPanel HorizontalAlignment="Center" Margin="0,0,0,10">
                                                 <DockPanel LastChildFill="False" VerticalAlignment="Top" HorizontalAlignment="Left">
                                                     <Label Content="{DynamicResource fps}" HorizontalAlignment="Left" RenderTransformOrigin="1.078,0.59" DockPanel.Dock="Left" Margin="0,0,0,0"/>
-                                                    <ui:NumberSelect x:Name="viewFps" Maximum="0" Minimum="1" Width="77" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
+                                                    <ui:NumberSelect x:Name="viewFps" Value="60" Maximum="204800" Minimum="1" Width="100" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
                                                 </DockPanel>
                                                 <DockPanel HorizontalAlignment="Center" LastChildFill="False" Margin="20,0,0,0" VerticalAlignment="Top" >
                                                     <Label Content="{DynamicResource noteSize}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>
