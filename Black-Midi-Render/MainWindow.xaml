@@ -205,32 +205,39 @@
                                                 <StackPanel>
                                                     <DockPanel LastChildFill="False" Margin="0,0,0,5" HorizontalAlignment="Left">
                                                         <Label Content="{DynamicResource width}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>
-                                                        <ui:NumberSelect x:Name="viewWidth" Maximum="15360" Minimum="1" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
+                                                        <ui:NumberSelect x:Name="viewWidth" Maximum="1966080" Minimum="1" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="10,0,0,0"  />
                                                     </DockPanel>
                                                     <DockPanel LastChildFill="False" HorizontalAlignment="Left">
                                                         <Label Content="{DynamicResource height}" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="0,0,0,0"/>
-                                                        <ui:NumberSelect x:Name="viewHeight" Maximum="8640" Minimum="1" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
+                                                        <ui:NumberSelect x:Name="viewHeight" Maximum="1105920" Minimum="1" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
                                                     </DockPanel>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1">
                                                     <DockPanel LastChildFill="False" Margin="0,0,0,5" HorizontalAlignment="Left">
                                                         <Label Content="{DynamicResource presets}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                        <ComboBox IsEnabled="{Binding ElementName=notPreviewingOrRendering, Path=IsEnabled}" x:Name="resolutionPreset" Margin="10,0,0,0" Width="110" SelectionChanged="ResolutionPreset_SelectionChanged">
-                                                            <ComboBoxItem Content="360p"/>
-                                                            <ComboBoxItem Content="540p"/>
-                                                            <ComboBoxItem Content="720p"/>
-                                                            <ComboBoxItem Content="1080p"/>
-                                                            <ComboBoxItem Content="1440p"/>
-                                                            <ComboBoxItem Content="4k"/>
-                                                            <ComboBoxItem Content="5k"/>
-                                                            <ComboBoxItem Content="8k"/>
-                                                            <ComboBoxItem Content="16k"/>
-                                                            <ComboBoxItem Content="32k"/>
+                                                        <ComboBox IsEnabled="{Binding ElementName=notPreviewingOrRendering, Path=IsEnabled}" x:Name="resolutionPreset" Margin="10,0,0,0" Width="135" SelectionChanged="ResolutionPreset_SelectionChanged">
+                                                            <ComboBoxItem Content="360p(nHD)"/>
+                                                            <ComboBoxItem Content="540p(qHD)"/>
+                                                            <ComboBoxItem Content="720p(HD)"/>
+                                                            <ComboBoxItem Content="1080p(FHD)"/>
+                                                            <ComboBoxItem Content="1440p(WQHD)"/>
+                                                            <ComboBoxItem Content="4K(UHD)"/>
+                                                            <ComboBoxItem Content="5K"/>
+                                                            <ComboBoxItem Content="(17M)"/>
+                                                            <ComboBoxItem Content="8K"/>
+                                                            <ComboBoxItem Content="16K"/>
+                                                            <ComboBoxItem Content="32K"/>
+                                                            <ComboBoxItem Content="64K"/>
+                                                            <ComboBoxItem Content="128K"/>
+                                                            <ComboBoxItem Content="256K"/>
+                                                            <ComboBoxItem Content="512K"/>
+                                                            <ComboBoxItem Content="1M"/>
+                                                            <ComboBoxItem Content="2M"/>
                                                         </ComboBox>
                                                     </DockPanel>
                                                     <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Left" LastChildFill="False" Margin="0,5" VerticalAlignment="Top">
                                                         <Label Content="{DynamicResource superRes}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>
-                                                        <ui:NumberSelect DockPanel.Dock="Left" x:Name="SSAAFactor" Value="1" Maximum="16" Minimum="1" HorizontalAlignment="Left" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}" Margin="5,0,0,0"  />
+                                                        <ui:NumberSelect DockPanel.Dock="Left" x:Name="SSAAFactor" Value="1" Maximum="1024" Minimum="1" HorizontalAlignment="Left" Width="135" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}" Margin="20,0,0,0"  />
                                                     </DockPanel>
                                                 </StackPanel>
                                             </Grid>
@@ -242,7 +249,7 @@
                                             <DockPanel HorizontalAlignment="Center" Margin="0,0,0,10">
                                                 <DockPanel LastChildFill="False" VerticalAlignment="Top" HorizontalAlignment="Left">
                                                     <Label Content="{DynamicResource fps}" HorizontalAlignment="Left" RenderTransformOrigin="1.078,0.59" DockPanel.Dock="Left" Margin="0,0,0,0"/>
-                                                    <ui:NumberSelect x:Name="viewFps" Value="60" Maximum="204800" Minimum="1" Width="100" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
+                                                    <ui:NumberSelect x:Name="viewFps" Value="60" Maximum="2162160" Minimum="1" Width="120" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
                                                 </DockPanel>
                                                 <DockPanel HorizontalAlignment="Center" LastChildFill="False" Margin="20,0,0,0" VerticalAlignment="Top" >
                                                     <Label Content="{DynamicResource noteSize}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>

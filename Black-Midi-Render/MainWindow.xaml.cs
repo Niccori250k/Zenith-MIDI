@@ -854,45 +854,73 @@ namespace Zenith_MIDI
             string preset = (string)((ComboBoxItem)resolutionPreset.SelectedItem).Content;
             switch (preset)
             {
-                case "360p":
+                case "360p(nHD)":
                     viewWidth.Value = 640;
                     viewHeight.Value = 360;
                     break;
-                case "540p":
+                case "540p(qHD)":
                     viewWidth.Value = 960;
                     viewHeight.Value = 540;
                     break;
-                case "720p":
+                case "720p(HD)":
                     viewWidth.Value = 1280;
                     viewHeight.Value = 720;
                     break;
-                case "1080p":
+                case "1080p(FHD)":
                     viewWidth.Value = 1920;
                     viewHeight.Value = 1080;
                     break;
-                case "1440p":
+                case "1440p(WQHD)":
                     viewWidth.Value = 2560;
                     viewHeight.Value = 1440;
                     break;
-                case "4k":
+                case "4K(UHD)":
                     viewWidth.Value = 3840;
                     viewHeight.Value = 2160;
                     break;
-                case "5k":
+                case "5K":
                     viewWidth.Value = 5120;
                     viewHeight.Value = 2880;
                     break;
-                case "8k":
+                case "(17M)":
+                    viewWidth.Value = 5488;
+                    viewHeight.Value = 3088;
+                    break;
+                case "8K":
                     viewWidth.Value = 7680;
                     viewHeight.Value = 4320;
                     break;
-                case "16k":
+                case "16K":
                     viewWidth.Value = 15360;
                     viewHeight.Value = 8640;
                     break;
-                case "32k":
+                case "32K":
                     viewWidth.Value = 30720;
                     viewHeight.Value = 17280;
+                    break;
+                case "64K":
+                    viewWidth.Value = 61440;
+                    viewHeight.Value = 34560;
+                    break;
+                case "128K":
+                    viewWidth.Value = 122880;
+                    viewHeight.Value = 69120;
+                    break;
+                case "256K":
+                    viewWidth.Value = 245760;
+                    viewHeight.Value = 138240;
+                    break;
+                case "512K":
+                    viewWidth.Value = 491520;
+                    viewHeight.Value = 276480;
+                    break;
+                case "1M":
+                    viewWidth.Value = 983040;
+                    viewHeight.Value = 552960;
+                    break;
+                case "2M":
+                    viewWidth.Value = 1966080;
+                    viewHeight.Value = 1105920;
                     break;
                 default:
                     break;
