@@ -49,9 +49,9 @@
     <system:String x:Key="includeAudio">Include Audio</system:String>
     <system:String x:Key="renderMask">Render Transparency Mask</system:String>
     <system:String x:Key="bitrate">Bitrate</system:String>
-    <system:String x:Key="crfHint">FFMPEG crf: 0 = lossless, 51 = worst quality possible</system:String>
+    <system:String x:Key="crfHint">0 = lossless, 51 = worst quality possible</system:String>
     <system:String x:Key="delatStart">Delay start (seconds)</system:String>
-    <system:String x:Key="ffmpegDebug">ffmpeg debug</system:String>
+    <system:String x:Key="ffmpegDebug">FFmpeg debug</system:String>
     <system:String x:Key="startRender">Start Render</system:String>
     <system:String x:Key="ifUploading">If uploading the video online, please credit the program</system:String>
     

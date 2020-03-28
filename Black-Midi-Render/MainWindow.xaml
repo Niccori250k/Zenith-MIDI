@@ -352,8 +352,8 @@
                                 </Button>
                                 <TextBox x:Name="alphaPath" IsEnabled="False" TextWrapping="Wrap" Text="" DockPanel.Dock="Right" Margin="10,0,0,0"/>
                             </DockPanel>
-                            <DockPanel Height="30" LastChildFill="False" Margin="0,30,0,0" VerticalAlignment="Top">
-                                <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="bitrateOption" Text="{DynamicResource bitrate}" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" DockPanel.Dock="Left" Margin="0,6,0,0"/>
+                            <DockPanel Height="30" LastChildFill="False" Margin="5,30,0,0" VerticalAlignment="Top">
+                                <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="bitrateOption" Text="{DynamicResource bitrate}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left" Margin="0,6,0,0"/>
                                 <ui:NumberSelect x:Name="bitrate" Maximum="2000000" Minimum="1" Value="20000" HorizontalAlignment="Left" Width="118" DockPanel.Dock="Left" Margin="10,0,0,0" >
                                     <ui:NumberSelect.IsEnabled>
                                         <MultiBinding Converter="{StaticResource AndValueConverter}">
@@ -364,9 +364,9 @@
                                 </ui:NumberSelect>
                                 <Label Content="kbps" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left" Margin="5,0,0,0"/>
                             </DockPanel>
-                            <DockPanel LastChildFill="False" Margin="0,10,0,0" VerticalAlignment="Top">
-                                <ui:BetterRadio ParentDepth="3" IsEnabled="{DynamicResource notRendering}" x:Name="crfOption" Text="crf" HorizontalAlignment="Left" RenderTransformOrigin="5.125,1.133" DockPanel.Dock="Left"/>
-                                <ui:NumberSelect x:Name="crfFactor" Value="17" Maximum="51" Minimum="0" HorizontalAlignment="Left" Width="64" DockPanel.Dock="Left" Margin="10,0,0,0" >
+                            <DockPanel LastChildFill="False" Margin="5,10,0,0" VerticalAlignment="Top">
+                                <ui:BetterRadio ParentDepth="3" IsEnabled="{DynamicResource notRendering}" x:Name="crfOption" Text="CRF" HorizontalAlignment="Left" RenderTransformOrigin="5.125,1.133" IsChecked="True" DockPanel.Dock="Left"/>
+                                <ui:NumberSelect x:Name="crfFactor" Value="0" Maximum="51" Minimum="0" HorizontalAlignment="Left" Width="118" DockPanel.Dock="Left" Margin="26,0,0,0" >
                                     <ui:NumberSelect.IsEnabled>
                                         <MultiBinding Converter="{StaticResource AndValueConverter}">
                                             <Binding ElementName="crfOption" Path="IsChecked" />
@@ -393,19 +393,19 @@
                                 </ComboBox>
                                 <Label Content="{DynamicResource crfHint}" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="10,0,0,0"/>
                             </DockPanel>
-                            <DockPanel LastChildFill="False" Margin="0,30,0,0" VerticalAlignment="Top">
+                            <DockPanel LastChildFill="False" Margin="5,30,0,0" VerticalAlignment="Top">
                                 <Label Content="{DynamicResource delatStart}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>
                                 <ui:NumberSelect x:Name="secondsDelay" Value="0" Maximum="10" Minimum="0" HorizontalAlignment="Left" Width="82"  IsEnabled="{Binding IsEnabled, ElementName=notRendering}" DockPanel.Dock="Left" />
                             </DockPanel>
-                            <DockPanel HorizontalAlignment="Left" Height="26" LastChildFill="False" Margin="0,10,0,0" >
+                            <DockPanel HorizontalAlignment="Left" Height="26" LastChildFill="False" Margin="5,10,0,0" >
                                 <Button x:Name="startRenderButton" Content="{DynamicResource startRender}" HorizontalAlignment="Left" Padding="20,0,20,0" Click="StartRenderButton_Click"  IsEnabled="{Binding IsEnabled, ElementName=previewStartEnabled}" DockPanel.Dock="Left"/>
                                 <Button Content="{DynamicResource stop}" HorizontalAlignment="Left" Padding="20,0,20,0" IsEnabled="{Binding IsEnabled, ElementName=stopEnabled}" Click="StopButton_Click" DockPanel.Dock="Left" Margin="10,0,0,0" />
                                 <ui:BetterCheckbox IsEnabled="{DynamicResource notRendering}" x:Name="ffdebug" Text="{DynamicResource ffmpegDebug}" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="10,0,0,0"/>
                             </DockPanel>
                         </StackPanel>
                         <DockPanel Margin="10">
-                            <TextBox DockPanel.Dock="Bottom" x:Name="creditText" Text="hhhh" AcceptsReturn="True" IsReadOnly="True" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Width="281" VerticalAlignment="Bottom"/>
-                            <Label Content="{DynamicResource ifUploading}" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom"/>
+                            <TextBox DockPanel.Dock="Bottom" x:Name="creditText" Text="hhhh" AcceptsReturn="True" IsReadOnly="True" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Width="281" VerticalAlignment="Bottom"/>
+                            <Label Content="{DynamicResource ifUploading}" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Bottom"/>
                         </DockPanel>
                     </Grid>
                 </TabItem>
