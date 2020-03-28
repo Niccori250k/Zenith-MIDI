@@ -10,7 +10,7 @@ namespace TexturedRender
     {
         public int firstNote = 0;
         public int lastNote = 128;
-        public double deltaTimeOnScreen = 300;
+        public double deltaTimeOnScreen = 1920;
         public bool sameWidthNotes = true;
         public bool blackNotesAbove = true;
 
