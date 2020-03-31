@@ -35,7 +35,8 @@ PPQ: {ppq}
 Polyphony: {plph}
 Time: {cmiltime}";
         string fullText = @"Notes: {nc} / {tn} / {nr}
-BPM: {bpm}
+BPM: {bpm}2
+True BPM: {truebpm}
 NPS: {mnps} - {nps}
 Polyphony: {mplph} - {plph}
 Seconds: {currsec} / {totalsec}.0 / {remsec}
@@ -52,7 +53,7 @@ Progress -
 Notes: {np}
 Ticks: {ticksp}
 Time: {timep}";
-        string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
+        string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}2  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
 
         bool initialised = false;
 

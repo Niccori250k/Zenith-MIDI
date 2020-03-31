@@ -215,6 +215,8 @@ namespace NoteCountRenderMod
                 string sep = "";
                 TimeSpan totalmiltime = new TimeSpan(0, 0, 0, totalsec, 0);
                 double totaldsec = totalsec;
+                int bpmdigits = 0;
+                
                 if (Regex.IsMatch(text, @"{tmiltime}\.(\d{3})[^\d]"))
                 {
                     Match match = Regex.Match(text, @"{tmiltime}\.(\d{3})[^\d]");
@@ -225,11 +227,21 @@ namespace NoteCountRenderMod
                     Match match = Regex.Match(text, @"{totalsec}\.(\d)[^\d]");
                     totaldsec = totalsec + (int.Parse(match.Groups[1].Value) / 10);
                 }
+                if (Regex.IsMatch(text, @"{bpm}(\d+)"))
+                {
+                    Match match = Regex.Match(text, @"{bpm}(\d+)");
+                    bpmdigits = int.Parse(match.Groups[1].Value);
+                    if (bpmdigits > 11) bpmdigits = 11;
+                }
                 if (separator == Commas.Comma) sep = "#,##";
                 if (miltime > totalmiltime) miltime = totalmiltime;
-                if (dseconds > totaldsec) dseconds = totaldsec; 
+                if (dseconds > totaldsec) dseconds = totaldsec;
+                string digits = "0." + new string('0', bpmdigits);
 
-                text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString("0.00"));
+                if (bpmdigits == 0) digits = "0";
+                text = Regex.Replace(text, @"{bpm}\d+", Math.Round(tempo, bpmdigits, MidpointRounding.AwayFromZero).ToString(digits));
+                text = text.Replace("{bpm}", Math.Round(tempo, MidpointRounding.AwayFromZero).ToString("0"));
+                text = text.Replace("{truebpm}", tempo.ToString());
 
                 text = text.Replace("{nc}", noteCount.ToString(sep + "0"));
                 text = text.Replace("{cn}", noteCount.ToString(sep + "00000"));
