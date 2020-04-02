@@ -1076,6 +1076,11 @@ namespace Zenith_MIDI
         {
 
         }
+
+        private void AudioCodec_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
     public class CustomTabs : TabControl

@@ -257,12 +257,12 @@ void main()
             {
                 double fstep = ((double)midi.division / lastTempo) * (1000000 / settings.fps);
                 double offset = -midiTime / fstep / settings.fps;
-                offset = Math.Round(offset * 100) / 100;
+                offset = Math.Round(offset, 2, MidpointRounding.AwayFromZero);
                 args = "" +
                     " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
                     " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" +
-                    " -vf vflip -vcodec libx264 -pix_fmt yuv420p -acodec aac";
+                    " -vf vflip -vcodec libx264 -pix_fmt yuv420p -acodec flac -strict -2";
             }
             else
             {

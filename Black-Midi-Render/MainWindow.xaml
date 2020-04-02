@@ -352,7 +352,8 @@
                                 </Button>
                                 <TextBox x:Name="alphaPath" IsEnabled="False" TextWrapping="Wrap" Text="" DockPanel.Dock="Right" Margin="10,0,0,0"/>
                             </DockPanel>
-                            <DockPanel Height="30" LastChildFill="False" Margin="5,30,0,0" VerticalAlignment="Top">
+                            <Label Content="Video Settings" FontSize="16" Margin="5,30,0,0"/>
+                            <DockPanel Height="30" LastChildFill="False" Margin="5,0,0,0" VerticalAlignment="Top">
                                 <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="bitrateOption" Text="{DynamicResource bitrate}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left" Margin="0,6,0,0"/>
                                 <ui:NumberSelect x:Name="bitrate" Maximum="2000000" Minimum="1" Value="20000" HorizontalAlignment="Left" Width="118" DockPanel.Dock="Left" Margin="10,0,0,0" >
                                     <ui:NumberSelect.IsEnabled>
@@ -393,6 +394,23 @@
                                 </ComboBox>
                                 <Label Content="{DynamicResource crfHint}" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="10,0,0,0"/>
                             </DockPanel>
+                            <!--
+                            <Label Content="Audio" FontSize="16" Margin="5,30,0,0"/>
+                            <DockPanel LastChildFill="False" Margin="5,10,0,0" VerticalAlignment="Top">
+                                <ComboBox DockPanel.Dock="Left" x:Name="AudioCodec" HorizontalAlignment="Left" Margin="10,0,0,0" Width="122" SelectedIndex="5" SelectionChanged="AudioCodec_SelectionChanged">
+                                    <ComboBox.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource AndValueConverter}">
+                                            <Binding ElementName="crfOption" Path="IsChecked" />
+                                            <Binding ElementName="notRendering" Path="IsEnabled"/>
+                                        </MultiBinding>
+                                    </ComboBox.IsEnabled>
+                                    <ComboBoxItem Content="AAC"/>
+                                    <ComboBoxItem Content="Opus"/>
+                                    <ComboBoxItem Content="Vorbis"/>
+                                    <ComboBoxItem Content="FLAC"/>
+                                </ComboBox>
+                            </DockPanel>
+                            -->
                             <DockPanel LastChildFill="False" Margin="5,30,0,0" VerticalAlignment="Top">
                                 <Label Content="{DynamicResource delatStart}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>
                                 <ui:NumberSelect x:Name="secondsDelay" Value="0" Maximum="10" Minimum="0" HorizontalAlignment="Left" Width="82"  IsEnabled="{Binding IsEnabled, ElementName=notRendering}" DockPanel.Dock="Left" />

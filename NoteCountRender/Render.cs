@@ -231,7 +231,7 @@ namespace NoteCountRenderMod
                 {
                     Match match = Regex.Match(text, @"{bpm}(\d+)");
                     bpmdigits = int.Parse(match.Groups[1].Value);
-                    if (bpmdigits > 11) bpmdigits = 11;
+                    if (bpmdigits > 12) bpmdigits = 12;
                 }
                 if (separator == Commas.Comma) sep = "#,##";
                 if (miltime > totalmiltime) miltime = totalmiltime;

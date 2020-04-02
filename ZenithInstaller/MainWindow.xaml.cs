@@ -34,7 +34,7 @@ namespace ZenithInstaller
             Dispatcher.Invoke(() =>
             {
                 dlProgress.Visibility = Visibility.Visible;
-                dlProgress.Content = (Math.Round(((double)dl / total * 1000.0)) / 10) + "% of " + (Math.Round(total / 100000.0) / 10) + "mb";
+                dlProgress.Content = (Math.Round(((double)dl / total), 2, MidpointRounding.AwayFromZero) * 10) + "% of " + (Math.Round(total / 100000.0) / 10) + "mb";
             });
         }
 
