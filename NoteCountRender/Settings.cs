@@ -30,7 +30,7 @@ namespace NoteCountRenderMod
         public string fontName = "MS UI Gothic";
         public System.Drawing.FontStyle fontStyle = System.Drawing.FontStyle.Regular;
 
-        public Commas thousandSeparator = Commas.Comma;
+        public Commas thousandSeparator = Commas.Nothing;
 
         public bool saveCsv = false;
         public bool AdditionalZeroes = false;
