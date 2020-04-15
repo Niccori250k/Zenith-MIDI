@@ -281,12 +281,9 @@ namespace NoteCountRenderMod
                 text = text.Replace("{totalframes}", totalframes.ToString());
                 text = text.Replace("{remframes}", (totalframes - frames).ToString());
 
-                string np = (noteCount * 1000000 / CurrentMidi.noteCount).ToString("000000");
-                text = text.Replace("{np}", np.Insert(np.Length - 4, ".") + "%");
-                string ticksp = (limMidiTime * 1000000 / CurrentMidi.tickLength).ToString("000000");
-                text = text.Replace("{ticksp}", ticksp.Insert(ticksp.Length - 4, ".") + "%");
-                string timep = (miltime.TotalMilliseconds * 1000000 / totalmiltime.TotalMilliseconds).ToString("000000");
-                text = text.Replace("{timep}", timep.Insert(timep.Length - 4, ".") + "%");
+                text = text.Replace("{np}", (noteCount * 1000000 / CurrentMidi.noteCount).ToString("000000").Insert(2, ".") + "%");
+                text = text.Replace("{ticksp}", (limMidiTime * 1000000 / CurrentMidi.tickLength).ToString("000000").Insert(2, ".") + "%");
+                text = text.Replace("{timep}", (miltime.TotalMilliseconds * 1000000 / totalmiltime.TotalMilliseconds).ToString("000000").Insert(2, ".") + "%");
                 return text;
             };
 
