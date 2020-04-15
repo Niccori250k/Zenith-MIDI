@@ -262,7 +262,7 @@ void main()
                     " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
                     " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" +
-                    " -vf vflip -vcodec libx264 -pix_fmt yuv420p -acodec flac -strict -2";
+                    " -vf vflip -pix_fmt yuv420p -acodec flac -strict -2";
             }
             else
             {
@@ -270,15 +270,19 @@ void main()
                     " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
                     " -strict -2" +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
-                    " -vf vflip -vcodec libx264 -pix_fmt yuv420p";
+                    " -vf vflip -pix_fmt yuv420p";
             }
             if (settings.useBitrate)
             {
-                args += " -b:v " + settings.bitrate + "k" +
+                args += " -c:v libx264" + 
+                    " -b:v " + settings.bitrate + "k" +
                     " -maxrate " + settings.bitrate + "k" +
                     " -minrate " + settings.bitrate + "k";
             }
-            else
+            else if (settings.usePNG)
+            {
+                args += " -c:v png";
+            }
             {
                 args += " -preset " + settings.crfPreset + " -crf " + settings.crf;
             }

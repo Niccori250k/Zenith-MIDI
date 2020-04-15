@@ -394,6 +394,9 @@
                                 </ComboBox>
                                 <Label Content="{DynamicResource crfHint}" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="10,0,0,0"/>
                             </DockPanel>
+                            <DockPanel LastChildFill="False" Margin="5,10,0,0" VerticalAlignment="Top">
+                                <ui:BetterRadio ParentDepth="3" IsEnabled="{DynamicResource notRendering}" x:Name="usePNG" Text="PNG" HorizontalAlignment="Left" RenderTransformOrigin="5.125,1.133" IsChecked="false" DockPanel.Dock="Left"/>
+                            </DockPanel>
                             <!--
                             <Label Content="Audio" FontSize="16" Margin="5,30,0,0"/>
                             <DockPanel LastChildFill="False" Margin="5,10,0,0" VerticalAlignment="Top">

@@ -767,6 +767,7 @@ namespace Zenith_MIDI
             settings.ffmpegDebug = (bool)ffdebug.IsChecked;
 
             settings.useBitrate = (bool)bitrateOption.IsChecked;
+            settings.usePNG = (bool)usePNG.IsChecked;
             if (settings.useBitrate) settings.bitrate = (int)bitrate.Value;
             else
             {
@@ -787,7 +788,8 @@ namespace Zenith_MIDI
         {
             var save = new SaveFileDialog();
             save.OverwritePrompt = true;
-            save.Filter = "H.264 video (*.mp4)|*.mp4";
+            if (usePNG.IsChecked) save.Filter = "AVI Video (*.avi)|*.avi";
+            else save.Filter = "H.264 video (*.mp4)|*.mp4";
             if ((bool)save.ShowDialog())
             {
                 videoPath.Text = save.FileName;
