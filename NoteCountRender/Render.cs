@@ -259,7 +259,7 @@ namespace NoteCountRenderMod
                 text = text.Replace("{cmiltime}", miltime.ToString("mm\\:ss\\.fff"));
                 text = Regex.Replace(text, @"{totalsec}\.\d", totaldsec);
                 text = text.Replace("{totaltime}", totaltime.ToString("mm\\:ss"));
-                text = text.Replace("{remsec}", Math.Floor((tdsec - dseconds) * 10 / 10).ToString(sep + "0.0"));
+                text = text.Replace("{remsec}", (Math.Floor(((double)tdsec - (double)dseconds) * 10) / 10).ToString(sep + "0.0"));
                 text = text.Replace("{remtime}", (totaltime - time).ToString("mm\\:ss"));
                 text = Regex.Replace(text, @"{tmiltime}\.\d{3}", totalmiltime.ToString("mm\\:ss\\.fff"));
                 text = text.Replace("{rmiltime}", (totalmiltime - miltime).ToString("mm\\:ss\\.fff"));
