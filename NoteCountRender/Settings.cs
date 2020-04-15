@@ -33,6 +33,7 @@ namespace NoteCountRenderMod
         public Commas thousandSeparator = Commas.Comma;
 
         public bool saveCsv = false;
+        public bool AdditionalZeroes = false;
         public string csvOutput = "";
         public string csvFormat = "{nps},{plph},{bpm},{nc}";
     }

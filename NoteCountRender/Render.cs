@@ -119,7 +119,7 @@ namespace NoteCountRenderMod
         long currentNotes = 0;
         long polyphony = 0;
         long Mplph = 0;
-
+        
         LinkedList<long> notesHit = new LinkedList<long>();
 
         public void RenderFrame(FastList<Note> notes, double midiTime, int finalCompositeBuff)
@@ -212,11 +212,12 @@ namespace NoteCountRenderMod
 
             Func<string, Commas, string> replace = (text, separator) =>
             {
+                bool MT = settings.AdditionalZeroes;
                 string sep = "";
                 TimeSpan totalmiltime = new TimeSpan(0, 0, 0, totalsec, 0);
                 string totaldsec = totalsec.ToString(sep + "0");
                 int bpmdigits = 2;
-                
+                string digits = "";
                 if (Regex.IsMatch(text, @"{tmiltime}\.(\d{3})[^\d]"))
                 {
                     Match match = Regex.Match(text, @"{tmiltime}\.(\d{3})[^\d]");
@@ -237,17 +238,39 @@ namespace NoteCountRenderMod
                 if (separator == Commas.Comma) sep = "#,##";
                 if (miltime > totalmiltime) miltime = totalmiltime;
                 if (dseconds > tdsec) dseconds = tdsec;
-                string digits = "0." + new string('0', bpmdigits);
+                if (MT) {
+                    digits = "000." + new string('0', bpmdigits);
+                }
+                else {
+                    digits = "0." + new string('0', bpmdigits);
+                }
 
                 if (bpmdigits == 0) digits = "0";
-                text = Regex.Replace(text, @"{bpm}\d+", Math.Round(tempo, bpmdigits, MidpointRounding.AwayFromZero).ToString(digits));
-                text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString("0.00"));
+                if (MT)
+                {
+                    text = Regex.Replace(text, @"{bpm}\d+", Math.Round(tempo, bpmdigits, MidpointRounding.AwayFromZero).ToString(digits));
+                    text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString("000.00"));
+                }
+                else
+                {
+                    text = Regex.Replace(text, @"{bpm}\d+", Math.Round(tempo, bpmdigits, MidpointRounding.AwayFromZero).ToString(digits));
+                    text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString("0.00"));
+                }
                 text = text.Replace("{truebpm}", tempo.ToString());
 
-                text = text.Replace("{nc}", noteCount.ToString(sep + "0"));
-                text = text.Replace("{cn}", noteCount.ToString(sep + "00000"));
-                text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + "0"));
-                text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + "0"));
+                if (MT)
+                {
+                    text = text.Replace("{nc}", noteCount.ToString(sep + "00000"));
+                    text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + "00000"));
+                    text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + "00000"));
+                }
+                else
+                {
+                    text = text.Replace("{nc}", noteCount.ToString(sep + "0"));
+                    text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + "0"));
+                    text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + "0"));
+                }
+
 
                 text = text.Replace("{nps}", Math.Round(nps).ToString(sep + "0"));
                 text = text.Replace("{mnps}", Math.Round(Mnps).ToString(sep + "0"));
@@ -268,9 +291,18 @@ namespace NoteCountRenderMod
                 text = text.Replace("{totalticks}", (CurrentMidi.tickLength).ToString(sep + "0"));
                 text = text.Replace("{remticks}", (CurrentMidi.tickLength - limMidiTime).ToString(sep + "0"));
 
-                text = text.Replace("{currbars}", bar.ToString(sep + "0"));
-                text = text.Replace("{totalbars}", maxbar.ToString(sep + "0"));
-                text = text.Replace("{rembars}", (maxbar - bar).ToString(sep + "0"));
+                if (MT)
+                {
+                    text = text.Replace("{currbars}", bar.ToString(sep + "000"));
+                    text = text.Replace("{totalbars}", maxbar.ToString(sep + "000"));
+                    text = text.Replace("{rembars}", (maxbar - bar).ToString(sep + "000"));
+                }
+                else
+                {
+                    text = text.Replace("{currbars}", bar.ToString(sep + "0"));
+                    text = text.Replace("{totalbars}", maxbar.ToString(sep + "0"));
+                    text = text.Replace("{rembars}", (maxbar - bar).ToString(sep + "0"));
+                }
 
                 text = text.Replace("{ppq}", CurrentMidi.division.ToString());
                 text = text.Replace("{tsn}", CurrentMidi.timeSig.numerator.ToString());
@@ -288,7 +320,7 @@ namespace NoteCountRenderMod
             };
 
 
-            string renderText = settings.text;
+            string renderText = Regex.Replace(settings.text, @"#MT\r?\n?", "");
             renderText = replace(renderText, settings.thousandSeparator);
 
             if (settings.textAlignment == Alignments.TopLeft)

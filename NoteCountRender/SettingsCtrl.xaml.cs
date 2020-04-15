@@ -53,7 +53,8 @@ Progress -
 Notes: {np}
 Ticks: {ticksp}
 Time: {timep}";
-        string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}2  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
+        string mtexText = @"#MT
+TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}2  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
 
         bool initialised = false;
 
@@ -259,6 +260,16 @@ Time: {timep}";
         private void fontSize_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void MIDITrail_Loaded(object sender, RoutedEventArgs e)
+        {
+            //settings.AdditionalZeroes = (bool)MIDITrail.IsChecked;
+        }
+
+        private void MT(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        {
+            settings.AdditionalZeroes = (bool)MIDITrail.IsChecked;
         }
     }
 }
