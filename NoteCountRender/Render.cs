@@ -214,8 +214,8 @@ namespace NoteCountRenderMod
             {
                 string sep = "";
                 TimeSpan totalmiltime = new TimeSpan(0, 0, 0, totalsec, 0);
-                double totaldsec = totalsec;
-                int bpmdigits = 0;
+                string totaldsec = totalsec.ToString(sep + "0");
+                int bpmdigits = 2;
                 
                 if (Regex.IsMatch(text, @"{tmiltime}\.(\d{3})[^\d]"))
                 {
@@ -225,7 +225,7 @@ namespace NoteCountRenderMod
                 if (Regex.IsMatch(text, @"{totalsec}\.(\d)[^\d]"))
                 {
                     Match match = Regex.Match(text, @"{totalsec}\.(\d)[^\d]");
-                    totaldsec = totalsec + (int.Parse(match.Groups[1].Value) / 10);
+                    totaldsec = totaldsec + "." + match.Groups[1].Value;
                 }
                 if (Regex.IsMatch(text, @"{bpm}(\d+)"))
                 {
@@ -233,14 +233,15 @@ namespace NoteCountRenderMod
                     bpmdigits = int.Parse(match.Groups[1].Value);
                     if (bpmdigits > 12) bpmdigits = 12;
                 }
+                double tdsec = double.Parse(totaldsec);
                 if (separator == Commas.Comma) sep = "#,##";
                 if (miltime > totalmiltime) miltime = totalmiltime;
-                if (dseconds > totaldsec) dseconds = totaldsec;
+                if (dseconds > tdsec) dseconds = tdsec;
                 string digits = "0." + new string('0', bpmdigits);
 
                 if (bpmdigits == 0) digits = "0";
                 text = Regex.Replace(text, @"{bpm}\d+", Math.Round(tempo, bpmdigits, MidpointRounding.AwayFromZero).ToString(digits));
-                text = text.Replace("{bpm}", Math.Round(tempo, MidpointRounding.AwayFromZero).ToString("0"));
+                text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString("0.00"));
                 text = text.Replace("{truebpm}", tempo.ToString());
 
                 text = text.Replace("{nc}", noteCount.ToString(sep + "0"));
@@ -256,9 +257,9 @@ namespace NoteCountRenderMod
                 text = text.Replace("{currsec}", dseconds.ToString(sep + "0.0"));
                 text = text.Replace("{currtime}", time.ToString("mm\\:ss"));
                 text = text.Replace("{cmiltime}", miltime.ToString("mm\\:ss\\.fff"));
-                text = Regex.Replace(text, @"{totalsec}\.\d", totaldsec.ToString(sep + "0.0"));
+                text = Regex.Replace(text, @"{totalsec}\.\d", totaldsec);
                 text = text.Replace("{totaltime}", totaltime.ToString("mm\\:ss"));
-                text = text.Replace("{remsec}", (Math.Floor((totaldsec - dseconds) * 10) / 10).ToString(sep + "0.0"));
+                text = text.Replace("{remsec}", Math.Floor((tdsec - dseconds) * 10 / 10).ToString(sep + "0.0"));
                 text = text.Replace("{remtime}", (totaltime - time).ToString("mm\\:ss"));
                 text = Regex.Replace(text, @"{tmiltime}\.\d{3}", totalmiltime.ToString("mm\\:ss\\.fff"));
                 text = text.Replace("{rmiltime}", (totalmiltime - miltime).ToString("mm\\:ss\\.fff"));
@@ -274,15 +275,18 @@ namespace NoteCountRenderMod
                 text = text.Replace("{ppq}", CurrentMidi.division.ToString());
                 text = text.Replace("{tsn}", CurrentMidi.timeSig.numerator.ToString());
                 text = text.Replace("{tsd}", CurrentMidi.timeSig.denominator.ToString());
-                text = text.Replace("{avgnps}", ((double)CurrentMidi.noteCount / (double)totalsec).ToString(sep + "0"));
+                text = text.Replace("{avgnps}", ((double)CurrentMidi.noteCount / (double)totalsec).ToString(sep + "0.00"));
 
                 text = text.Replace("{currframes}", frames.ToString());
                 text = text.Replace("{totalframes}", totalframes.ToString());
                 text = text.Replace("{remframes}", (totalframes - frames).ToString());
 
-                text = text.Replace("{np}", (Math.Floor((double)(noteCount * 1000000 / CurrentMidi.noteCount)) / 10000).ToString("00.0000") + "%");
-                text = text.Replace("{ticksp}", (Math.Floor((double)(limMidiTime * 1000000 / CurrentMidi.tickLength)) / 10000).ToString("00.0000") + "%");
-                text = text.Replace("{timep}", (Math.Floor(miltime.TotalMilliseconds / totalmiltime.TotalMilliseconds * 1000000) / 10000).ToString("00.0000") + "%");
+                string np = (noteCount * 1000000 / CurrentMidi.noteCount).ToString("000000");
+                text = text.Replace("{np}", np.Insert(np.Length - 4, ".") + "%");
+                string ticksp = (limMidiTime * 1000000 / CurrentMidi.tickLength).ToString("000000");
+                text = text.Replace("{ticksp}", ticksp.Insert(ticksp.Length - 4, ".") + "%");
+                string timep = (miltime.TotalMilliseconds * 1000000 / totalmiltime.TotalMilliseconds).ToString("000000");
+                text = text.Replace("{timep}", timep.Insert(timep.Length - 4, ".") + "%");
                 return text;
             };
 
