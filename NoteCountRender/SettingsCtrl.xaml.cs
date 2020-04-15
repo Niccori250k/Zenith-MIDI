@@ -53,8 +53,7 @@ Progress -
 Notes: {np}
 Ticks: {ticksp}
 Time: {timep}";
-        string mtexText = @"#MT
-TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}2  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
+        string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}2  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
 
         bool initialised = false;
 

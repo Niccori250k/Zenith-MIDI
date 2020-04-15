@@ -320,7 +320,7 @@ namespace NoteCountRenderMod
             };
 
 
-            string renderText = Regex.Replace(settings.text, @"#MT\r?\n?", "");
+            string renderText = settings.text;
             renderText = replace(renderText, settings.thousandSeparator);
 
             if (settings.textAlignment == Alignments.TopLeft)
