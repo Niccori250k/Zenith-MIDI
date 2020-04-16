@@ -58,7 +58,7 @@
                             <ui:BetterRadio x:Name="useCommas" IsChecked="False" Text="{DynamicResource commas}" Margin="0,0,0,5" RadioChecked="useCommas_RadioChecked"/>
                             <!--<ui:BetterRadio x:Name="useDots" Text="Dots" Margin="0,0,0,5" RadioChecked="useCommas_RadioChecked"/>-->
                             <ui:BetterRadio x:Name="useNothing" IsChecked="True" Text="{DynamicResource nothing}" Margin="0,0,0,5" RadioChecked="useCommas_RadioChecked"/>
-                            <ui:BetterCheckbox Margin="-4,2,0,0" x:Name="MIDITrail" Text="{DynamicResource MIDITrail}" CheckToggled="MT" Loaded="MIDITrail_Loaded" />
+                            <ui:BetterCheckbox Margin="-4,2,0,0" x:Name="MIDITrail" Text="{DynamicResource ZeroPadding}" CheckToggled="MT" Loaded="MIDITrail_Loaded" />
                         </StackPanel>
                     </DockPanel>
                     <TextBox AcceptsReturn="True" VerticalContentAlignment="Top" x:Name="textTemplate" Margin="0,10,0,0" TextWrapping="Wrap" Text="TextBox" TextChanged="TextTemplate_TextChanged"/>
