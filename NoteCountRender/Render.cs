@@ -63,6 +63,7 @@ namespace NoteCountRenderMod
 
         RenderSettings renderSettings;
         Settings settings;
+
         //NumberSelect NumberSelect;
 
         GLTextEngine textEngine;
@@ -234,10 +235,14 @@ namespace NoteCountRenderMod
                 TimeSpan totalmiltime = new TimeSpan(0, 0, 0, totalsec, 0);
                 string totaldsec = totalsec.ToString(sep + "0");
                 int bpmdigits = 2;
-                string digits = "";
-                string bpmzp = "0.00";
-                string nczp = "0";
+                string digits = "0." + new string('0', bpmdigits);
+                string bpmzp = "0";
+                string notezp = "0";
                 string barzp = "0";
+                string Mzp = "000000";
+                string npszp = "0";
+                string plphzp = "0";
+                string tickzp = "0";
                 if (Regex.IsMatch(text, @"{tmiltime}\.(\d{3})[^\d]"))
                 {
                     Match match = Regex.Match(text, @"{tmiltime}\.(\d{3})[^\d]");
@@ -261,11 +266,11 @@ namespace NoteCountRenderMod
                 if (settings.AdditionalZeroes) {
                     digits = "000." + new string('0', bpmdigits);
                     bpmzp = "000.00";
-                    nczp = "00000";
+                    notezp = "00000";
                     barzp = "000";
-                }
-                else {
-                    digits = "0." + new string('0', bpmdigits);
+                    npszp = "000";
+                    plphzp = "000";
+                    tickzp = "00000";
                 }
 
                 if (bpmdigits == 0) digits = "0";
@@ -273,15 +278,15 @@ namespace NoteCountRenderMod
                 text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString(bpmzp));
                 text = text.Replace("{truebpm}", tempo.ToString());
 
-                text = text.Replace("{nc}", noteCount.ToString(sep + nczp));
-                text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + nczp));
-                text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + nczp));
+                text = text.Replace("{nc}", noteCount.ToString(sep + notezp));
+                text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + notezp));
+                text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + notezp));
 
 
-                text = text.Replace("{nps}", Math.Round(nps).ToString(sep + "0"));
-                text = text.Replace("{mnps}", Math.Round(Mnps).ToString(sep + "0"));
-                text = text.Replace("{plph}", polyphony.ToString(sep + "0"));
-                text = text.Replace("{mplph}", Mplph.ToString(sep + "0"));
+                text = text.Replace("{nps}", Math.Round(nps).ToString(sep + npszp));
+                text = text.Replace("{mnps}", Math.Round(Mnps).ToString(sep + npszp));
+                text = text.Replace("{plph}", polyphony.ToString(sep + plphzp));
+                text = text.Replace("{mplph}", Mplph.ToString(sep + plphzp));
                 //text = text.Replace("{npq}", npq.ToString(sep + "0"));
                 //text = text.Replace("{mnpq}", Mnpq.ToString(sep + "0"));
 
@@ -297,9 +302,9 @@ namespace NoteCountRenderMod
                 text = text.Replace("{cftime}", time.ToString("mm\\:ss") + ":" + (frames % renderSettings.fps).ToString("0"));
                 text = text.Replace("{tftime}", totaltime.ToString("mm\\:ss") + ":" + (totalframes % renderSettings.fps).ToString("0"));
 
-                text = text.Replace("{currticks}", (limMidiTime).ToString(sep + "0"));
-                text = text.Replace("{totalticks}", (CurrentMidi.tickLength).ToString(sep + "0"));
-                text = text.Replace("{remticks}", (CurrentMidi.tickLength - limMidiTime).ToString(sep + "0"));
+                text = text.Replace("{currticks}", (limMidiTime).ToString(sep + tickzp));
+                text = text.Replace("{totalticks}", (CurrentMidi.tickLength).ToString(sep + tickzp));
+                text = text.Replace("{remticks}", (CurrentMidi.tickLength - limMidiTime).ToString(sep + tickzp));
 
                 text = text.Replace("{currbars}", bar.ToString(sep + barzp));
                 text = text.Replace("{totalbars}", maxbar.ToString(sep + barzp));
@@ -315,9 +320,9 @@ namespace NoteCountRenderMod
                 text = text.Replace("{totalframes}", totalframes.ToString());
                 text = text.Replace("{remframes}", (totalframes - frames).ToString());
 
-                text = text.Replace("{np}", (noteCount * 1000000 / CurrentMidi.noteCount).ToString("000000").Insert(2, ".") + "%");
-                text = text.Replace("{ticksp}", (limMidiTime * 1000000 / CurrentMidi.tickLength).ToString("000000").Insert(2, ".") + "%");
-                text = text.Replace("{timep}", (miltime.TotalMilliseconds * 1000000 / totalmiltime.TotalMilliseconds).ToString("000000").Insert(2, ".") + "%");
+                text = text.Replace("{np}", (noteCount * 1000000 / CurrentMidi.noteCount).ToString(Mzp).Insert(2, ".") + "%");
+                text = text.Replace("{ticksp}", (limMidiTime * 1000000 / CurrentMidi.tickLength).ToString(Mzp).Insert(2, ".") + "%");
+                text = text.Replace("{timep}", (miltime.TotalMilliseconds * 1000000 / totalmiltime.TotalMilliseconds).ToString(Mzp).Insert(2, ".") + "%");
 
                 text = text.Replace("{fps}", renderSettings.fps.ToString());
                 text = text.Replace("{vwidth}", (renderSettings.width / renderSettings.downscale).ToString());
