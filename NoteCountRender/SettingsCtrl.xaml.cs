@@ -42,17 +42,22 @@ Polyphony: {mplph} - {plph}
 Seconds: {currsec} / {totalsec}.0 / {remsec}
 Time: {currtime} / {totaltime} / {remtime}
 Time: {cmiltime} / {tmiltime}.000 / {rmiltime}
+Time: {cftime} / {tftime}
 Ticks: {currticks} / {totalticks} / {remticks}
 Bars: {currbars} / {totalbars} / {rembars}
 PPQ: {ppq}
 Time Signature: {tsn}/{tsd}
 Average NPS: {avgnps}
+Average NPQ: {avgnpq}
 Frames: {currframes} / {totalframes} / {remframes}
 
 Progress - 
 Notes: {np}
 Ticks: {ticksp}
-Time: {timep}";
+Time: {timep}
+
+Video Information - 
+FPS: {fps}";
         string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}2  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
 
         bool initialised = false;

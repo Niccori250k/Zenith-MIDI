@@ -11,6 +11,7 @@ using ZenithEngine;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using ZenithEngine.UI;
 
 namespace NoteCountRenderMod
 {
@@ -62,6 +63,7 @@ namespace NoteCountRenderMod
 
         RenderSettings renderSettings;
         Settings settings;
+        //NumberSelect NumberSelect;
 
         GLTextEngine textEngine;
         public void Dispose()
@@ -92,8 +94,11 @@ namespace NoteCountRenderMod
             Mplph = 0;
             nps = 0;
             Mnps = 0;
+            //npq = 0;
+            //Mnpq = 0;
             frames = 0;
             notesHit = new LinkedList<long>();
+            //Array.Resize(ref ncl, CurrentMidi.division);
             Initialized = true;
 
             if (settings.saveCsv && settings.csvOutput != "")
@@ -119,6 +124,9 @@ namespace NoteCountRenderMod
         long currentNotes = 0;
         long polyphony = 0;
         long Mplph = 0;
+        //long npq = 0;
+        //long Mnpq = 0;
+        //long[] ncl = new long[0];
         
         LinkedList<long> notesHit = new LinkedList<long>();
 
@@ -182,6 +190,16 @@ namespace NoteCountRenderMod
                 while (notesHit.Count > renderSettings.fps) notesHit.RemoveFirst();
                 nps = notesHit.Sum();
                 if (Mnps < nps) Mnps = nps;
+                /*ncl[(int)((long)midiTime % CurrentMidi.division)] = noteCount;
+                if ((long)midiTime % CurrentMidi.division == CurrentMidi.division - 1)
+                {
+                    npq = ncl[CurrentMidi.division - 1] - ncl[0];
+                }
+                else
+                {
+                    npq = ncl[(int)((long)midiTime % CurrentMidi.division)] - ncl[(int)((long)midiTime % CurrentMidi.division + 1)];
+                }
+                if (Mnpq < npq) Mnpq = npq;*/
             }
 
             double tempo = Tempo;
@@ -265,6 +283,8 @@ namespace NoteCountRenderMod
                 text = text.Replace("{mnps}", Math.Round(Mnps).ToString(sep + "0"));
                 text = text.Replace("{plph}", polyphony.ToString(sep + "0"));
                 text = text.Replace("{mplph}", Mplph.ToString(sep + "0"));
+                //text = text.Replace("{npq}", npq.ToString(sep + "0"));
+                //text = text.Replace("{mnpq}", Mnpq.ToString(sep + "0"));
 
                 text = text.Replace("{currsec}", dseconds.ToString(sep + "0.0"));
                 text = text.Replace("{currtime}", time.ToString("mm\\:ss"));
@@ -275,6 +295,8 @@ namespace NoteCountRenderMod
                 text = text.Replace("{remtime}", (totaltime - time).ToString("mm\\:ss"));
                 text = Regex.Replace(text, @"{tmiltime}\.\d{3}", totalmiltime.ToString("mm\\:ss\\.fff"));
                 text = text.Replace("{rmiltime}", (totalmiltime - miltime).ToString("mm\\:ss\\.fff"));
+                text = text.Replace("{cftime}", time.ToString("mm\\:ss") + ":" + (frames % renderSettings.fps).ToString("0"));
+                text = text.Replace("{tftime}", totaltime.ToString("mm\\:ss") + ":" + (totalframes % renderSettings.fps).ToString("0"));
 
                 text = text.Replace("{currticks}", (limMidiTime).ToString(sep + "0"));
                 text = text.Replace("{totalticks}", (CurrentMidi.tickLength).ToString(sep + "0"));
@@ -288,6 +310,7 @@ namespace NoteCountRenderMod
                 text = text.Replace("{tsn}", CurrentMidi.timeSig.numerator.ToString());
                 text = text.Replace("{tsd}", CurrentMidi.timeSig.denominator.ToString());
                 text = text.Replace("{avgnps}", ((double)CurrentMidi.noteCount / (double)totalsec).ToString(sep + "0.00"));
+                text = text.Replace("{avgnpq}", ((double)CurrentMidi.noteCount / (double)CurrentMidi.division).ToString(sep + "0.00"));
 
                 text = text.Replace("{currframes}", frames.ToString());
                 text = text.Replace("{totalframes}", totalframes.ToString());
@@ -296,12 +319,16 @@ namespace NoteCountRenderMod
                 text = text.Replace("{np}", (noteCount * 1000000 / CurrentMidi.noteCount).ToString("000000").Insert(2, ".") + "%");
                 text = text.Replace("{ticksp}", (limMidiTime * 1000000 / CurrentMidi.tickLength).ToString("000000").Insert(2, ".") + "%");
                 text = text.Replace("{timep}", (miltime.TotalMilliseconds * 1000000 / totalmiltime.TotalMilliseconds).ToString("000000").Insert(2, ".") + "%");
+
+                text = text.Replace("{fps}", renderSettings.fps.ToString());
+                //text = text.Replace("{vwidth}", NumberSelect.Width.ToString());
+                //text = text.Replace("{vheight}", NumberSelect.Height.ToString());
                 return text;
             };
 
 
-            string renderText = settings.text;
-            renderText = replace(renderText, settings.thousandSeparator);
+            string renderText = replace(settings.text, settings.thousandSeparator);
+            Regex.Replace(renderText, @"\[(.*?)\]", "{" + Regex.Match(renderText, @"\[(.*?)\]").Groups[1].Value + "}");
 
             if (settings.textAlignment == Alignments.TopLeft)
             {
