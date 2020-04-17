@@ -230,7 +230,6 @@ namespace NoteCountRenderMod
 
             Func<string, Commas, string> replace = (text, separator) =>
             {
-                bool MT = settings.AdditionalZeroes;
                 string sep = "";
                 TimeSpan totalmiltime = new TimeSpan(0, 0, 0, totalsec, 0);
                 string totaldsec = totalsec.ToString(sep + "0");
@@ -259,7 +258,7 @@ namespace NoteCountRenderMod
                 if (separator == Commas.Comma) sep = "#,##";
                 if (miltime > totalmiltime) miltime = totalmiltime;
                 if (dseconds > tdsec) dseconds = tdsec;
-                if (MT) {
+                if (settings.AdditionalZeroes) {
                     digits = "000." + new string('0', bpmdigits);
                     bpmzp = "000.00";
                     nczp = "00000";
@@ -321,8 +320,8 @@ namespace NoteCountRenderMod
                 text = text.Replace("{timep}", (miltime.TotalMilliseconds * 1000000 / totalmiltime.TotalMilliseconds).ToString("000000").Insert(2, ".") + "%");
 
                 text = text.Replace("{fps}", renderSettings.fps.ToString());
-                //text = text.Replace("{vwidth}", NumberSelect.Width.ToString());
-                //text = text.Replace("{vheight}", NumberSelect.Height.ToString());
+                text = text.Replace("{vwidth}", (renderSettings.width / renderSettings.downscale).ToString());
+                text = text.Replace("{vheight}", (renderSettings.height / renderSettings.downscale).ToString());
                 return text;
             };
 
