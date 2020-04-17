@@ -57,7 +57,9 @@ Ticks: {ticksp}
 Time: {timep}
 
 Video Information - 
-FPS: {fps}";
+FPS: {fps}
+Width: {vwidth}
+Height: {vheight}";
         string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}2  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
 
         bool initialised = false;
