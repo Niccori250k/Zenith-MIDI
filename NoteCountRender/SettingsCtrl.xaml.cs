@@ -41,7 +41,7 @@ NPS: {mnps} - {nps}
 Polyphony: {mplph} - {plph}
 Seconds: {currsec} / {totalsec}.0 / {remsec}
 Time: {currtime} / {totaltime} / {remtime}
-Time: {cmiltime} / {tmiltime}.000 / {rmiltime}
+Time(ms): {cmiltime} / {tmiltime} / {rmiltime}
 Time: {cftime} / {tftime}
 Ticks: {currticks} / {totalticks} / {remticks}
 Bars: {currbars} / {totalbars} / {rembars}

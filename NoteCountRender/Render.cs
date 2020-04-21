@@ -228,14 +228,15 @@ namespace NoteCountRenderMod
             int seconds = (int)Math.Floor((double)frames  * 10 / renderSettings.fps) / 10;
             double dseconds = Math.Floor((double)frames  * 10 / renderSettings.fps) / 10;
             int milliseconds = (int)Math.Floor((double)frames * 1000 / renderSettings.fps);
-            int totalsec = (int)Math.Floor(CurrentMidi.secondsLength);
+            int totalsec = (int)Math.Floor(CurrentMidi.secondsLength / 1000);
             //double totaldsec = CurrentMidi.secondsLength;
-            int totalframes = (int)Math.Ceiling(CurrentMidi.secondsLength * renderSettings.fps);
+            int totalframes = (int)Math.Ceiling(CurrentMidi.secondsLength / 1000 * renderSettings.fps);
             //int totalmsec = (int)Math.Floor(CurrentMidi.millisecondsLength);
             if (seconds > totalsec) seconds = totalsec;
             TimeSpan time = new TimeSpan(0, 0, seconds);
             TimeSpan miltime = new TimeSpan(0, 0, 0, 0, milliseconds);
             TimeSpan totaltime = new TimeSpan(0, 0, totalsec);
+            TimeSpan totalmiltime = new TimeSpan(0, 0, 0, 0, (int)Math.Floor(CurrentMidi.secondsLength));
             if (time > totaltime) time = totaltime;
             if (!renderSettings.Paused) frames++;
             if (frames > totalframes) frames = totalframes;
@@ -252,7 +253,6 @@ namespace NoteCountRenderMod
             Func<string, Commas, string> replace = (text, separator) =>
             {
                 string sep = "";
-                TimeSpan totalmiltime = new TimeSpan(0, 0, 0, totalsec, 0);
                 string totaldsec = totalsec.ToString(sep + "0");
                 int bpmdigits = 2;
                 string digits = "0." + new string('0', bpmdigits);
@@ -263,11 +263,6 @@ namespace NoteCountRenderMod
                 string npszp = "0";
                 string plphzp = "0";
                 string tickzp = "0";
-                if (Regex.IsMatch(text, @"{tmiltime}\.(\d{3})[^\d]"))
-                {
-                    Match match = Regex.Match(text, @"{tmiltime}\.(\d{3})[^\d]");
-                    totalmiltime = new TimeSpan(0, 0, 0, totalsec, int.Parse(match.Groups[1].Value));
-                }
                 if (Regex.IsMatch(text, @"{totalsec}\.(\d)[^\d]"))
                 {
                     Match match = Regex.Match(text, @"{totalsec}\.(\d)[^\d]");
@@ -317,7 +312,7 @@ namespace NoteCountRenderMod
                 text = text.Replace("{totaltime}", totaltime.ToString("mm\\:ss"));
                 text = text.Replace("{remsec}", (tdsec - dseconds).ToString(sep + "0.0"));
                 text = text.Replace("{remtime}", (totaltime - time).ToString("mm\\:ss"));
-                text = Regex.Replace(text, @"{tmiltime}\.\d{3}", totalmiltime.ToString("mm\\:ss\\.fff"));
+                text = text.Replace("{tmiltime}", totalmiltime.ToString("mm\\:ss\\.fff"));
                 text = text.Replace("{rmiltime}", (totalmiltime - miltime).ToString("mm\\:ss\\.fff"));
                 text = text.Replace("{cftime}", time.ToString("mm\\:ss") + ":" + (frames % renderSettings.fps).ToString("0"));
                 text = text.Replace("{tftime}", totaltime.ToString("mm\\:ss") + ":" + (totalframes % renderSettings.fps).ToString("0"));
