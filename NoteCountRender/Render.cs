@@ -67,6 +67,26 @@ namespace NoteCountRenderMod
         //NumberSelect NumberSelect;
 
         GLTextEngine textEngine;
+
+        public List<long> DigitOrg(List<long> Numbers)
+        {
+            long Digits = 100000000;
+            for (int i = 0; i < Numbers.Count()-1; i++)
+            {
+                if (Numbers[i] > Digits)
+                {
+                    Numbers[i+1] += Numbers[i] / Digits;
+                    Numbers[i] %= Digits;
+                }
+            }
+            int Highest = Numbers.Count() - 1;
+            if (Numbers[Highest] > Digits)
+            {
+                Numbers.Add(Numbers[Highest] / Digits);
+                Numbers[Highest] %= Digits;
+            }
+            return Numbers;
+        }
         public void Dispose()
         {
             textEngine.Dispose();
