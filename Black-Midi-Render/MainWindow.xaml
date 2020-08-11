@@ -329,7 +329,7 @@
                                 <TextBox x:Name="videoPath" Margin="10,0,0,0" IsEnabled="False" TextWrapping="Wrap" Text=""/>
                             </DockPanel>
                             <DockPanel Height="26" LastChildFill="True" Margin="0,10,0,0" VerticalAlignment="Top">
-                                <ui:BetterCheckbox DockPanel.Dock="Left" x:Name="includeAudio" Text="{DynamicResource includeAudio}" HorizontalAlignment="Left" IsEnabled="{DynamicResource notRendering}"/>
+                                <ui:BetterCheckbox DockPanel.Dock="Left" x:Name="includeAudio" Text="{DynamicResource includeAudio}" HorizontalAlignment="Left" IsEnabled="{DynamicResource notRendering}" CheckToggled="includeAudio_CheckToggled"/>
                                 <Button DockPanel.Dock="Left" x:Name="browseAudioButton" Content="{DynamicResource browse}" HorizontalAlignment="Left" Margin="10,0,0,0" Padding="20,0,20,0" Click="BrowseAudioButton_Click" >
                                     <Button.IsEnabled>
                                         <MultiBinding Converter="{StaticResource AndValueConverter}">
@@ -394,10 +394,10 @@
                                 <Label Content="{DynamicResource crfHint}" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="10,0,0,0"/>
                             </DockPanel>
                             <DockPanel Height="30" LastChildFill="False" Margin="5,16,0,0" VerticalAlignment="Top">
-                                <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="FFmpeg" Text="{DynamicResource Custom}" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" DockPanel.Dock="Left" Margin="0,6,0,0" />
+                                <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="FFmpeg" Text="{DynamicResource Custom}" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" DockPanel.Dock="Left" Margin="0,6,0,0" RadioChecked="FFmpeg_Checked" />
                             </DockPanel>
                             <DockPanel>
-                                <TextBox AcceptsReturn="True" VerticalContentAlignment="Top" x:Name="FFmpegOptions" Margin="20,5,0,0" TextWrapping="Wrap" Height="50" Text="FFmpeg options">
+                                <TextBox AcceptsReturn="True" VerticalContentAlignment="Top" x:Name="FFmpegOptions" Margin="20,5,0,0" TextWrapping="Wrap" Height="50" Text="FFmpeg Options">
                                     <TextBox.IsEnabled>
                                         <MultiBinding Converter="{StaticResource AndValueConverter}">
                                             <Binding ElementName="FFmpeg" Path="IsChecked" />

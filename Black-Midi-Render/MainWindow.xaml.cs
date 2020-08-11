@@ -804,10 +804,17 @@ namespace Zenith_MIDI
         private void BrowseAudioButton_Click(object sender, RoutedEventArgs e)
         {
             var audio = new OpenFileDialog();
-            audio.Filter = "Common audio files (*.mp3;*.wav;*.ogg;*.flac)|*.mp3;*.wav;*.ogg;*.flac";
+            audio.Filter = "Common audio files (*.mp3;*.wav;*.ogg;*.flac)|*.mp3;*.wav;*.ogg;*.flac|All types|*.*";
             if ((bool)audio.ShowDialog())
             {
                 audioPath.Text = audio.FileName;
+                if (FFmpeg.IsChecked)
+                {
+                    FFmpegOptions.Text = " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
+                                         " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
+                                         (includeAudio.IsChecked ? " -itsoffset " + " -i \"" + audioPath.Text + "\"" : "") +
+                                         " -vf vflip -pix_fmt yuv420p ";
+                }
             }
         }
 
@@ -1083,6 +1090,25 @@ namespace Zenith_MIDI
         private void AudioCodec_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void FFmpeg_Checked(object sender, RoutedEventArgs e)
+        {
+            FFmpegOptions.Text = " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
+                                 " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
+                                 (includeAudio.IsChecked ? " -itsoffset " + " -i \"" + audioPath.Text + "\"" : "") +
+                                 " -vf vflip -pix_fmt yuv420p ";
+        }
+
+        private void includeAudio_CheckToggled(object sender, RoutedEventArgs e)
+        {
+            if (FFmpeg.IsChecked)
+            {
+                FFmpegOptions.Text = " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
+                                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
+                                     (includeAudio.IsChecked ? " -itsoffset " + " -i \"" + audioPath.Text + "\"" : "") +
+                                     " -vf vflip -pix_fmt yuv420p ";
+            }
         }
     }
 

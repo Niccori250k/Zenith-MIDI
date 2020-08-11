@@ -60,7 +60,7 @@
                             <ui:BetterRadio x:Name="useCommas" IsChecked="False" Text="{DynamicResource commas}" Margin="0,0,0,5" RadioChecked="useCommas_RadioChecked"/>
                             <!--<ui:BetterRadio x:Name="useDots" Text="Dots" Margin="0,0,0,5" RadioChecked="useCommas_RadioChecked"/>-->
                             <ui:BetterRadio x:Name="useNothing" IsChecked="True" Text="{DynamicResource nothing}" Margin="0,0,0,5" RadioChecked="useCommas_RadioChecked"/>
-                            <ui:BetterCheckbox Margin="-4,2,0,0" x:Name="ZeroPadding" Text="{DynamicResource ZeroPadding}" CheckToggled="ZP" />
+                            <ui:BetterCheckbox Margin="-4,2,0,0" IsChecked="True" x:Name="ZeroPadding" Text="{DynamicResource ZeroPadding}" CheckToggled="ZP" />
                         </StackPanel>
                     </DockPanel>
                     <TextBox AcceptsReturn="True" VerticalContentAlignment="Top" x:Name="textTemplate" Margin="0,10,0,0" TextWrapping="Wrap" Text="TextBox" TextChanged="TextTemplate_TextChanged"/>

@@ -253,39 +253,45 @@ void main()
         {
             Process ffmpeg = new Process();
             string args = "-hide_banner";
+            double fstep = ((double)midi.division / lastTempo) * (1000000 / settings.fps);
+            double offset = -midiTime / fstep / settings.fps;
+            offset = Math.Round(offset * 100) / 100;
+            args = " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
+                    " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
+                    (settings.includeAudio ? " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" : "") +
+                    " -vf vflip -pix_fmt yuv420p " ;
+            /*
             if (settings.includeAudio)
-            {
-                double fstep = ((double)midi.division / lastTempo) * (1000000 / settings.fps);
-                double offset = -midiTime / fstep / settings.fps;
-                offset = Math.Round(offset * 100) / 100;
+            {                
                 args = "" +
                     " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
-                    " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" + " -vf vflip -pix_fmt yuv420p ";
-                args += settings.CustomFFmpeg ? "" : "-vcodec libx264 -acodec aac";
+                    " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" + " -vf vflip -pix_fmt yuv420p -vcodec libx264 -acodec aac";
             }
             else
             {
                 args = "" +
                     " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
-                    " -strict -2" +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
-                    " -vf vflip -pix_fmt yuv420p ";
-                args += settings.CustomFFmpeg ? "" : "-vcodec libx264";
+                    " -vf vflip -pix_fmt yuv420p -vcodec libx264";
             }
-            if (settings.useBitrate)
+            */
+            if (settings.CustomFFmpeg)
             {
-                args += " -b:v " + settings.bitrate + "k" +
+                args = settings.ffoption;
+                args = Regex.Replace(args, @"-itsoffset\s[^\d]", "-itsoffset " + offset.ToString().Replace(",", ".") + " " + Regex.Match(args, @"-itsoffset\s([^\d])").Groups[1].Value);
+            }
+            else if (settings.useBitrate)
+            {
+                args += "-pix_fmt yuv420p -vcodec libx264" + (settings.includeAudio ? "-acodec aac" : "") +
+                    " -b:v " + settings.bitrate + "k" +
                     " -maxrate " + settings.bitrate + "k" +
                     " -minrate " + settings.bitrate + "k";
             }
-            else if (settings.CustomFFmpeg)
-            {
-                args += settings.ffoption;
-            }
             else
             {
-                args += " -preset " + settings.crfPreset + " -crf " + settings.crf;
+                args += "-pix_fmt yuv420p -vcodec libx264" + (settings.includeAudio ? "-acodec aac" : "") +
+                    " -preset " + settings.crfPreset + " -crf " + settings.crf;
             }
             args += " -y \"" + path + "\"";
             ffmpeg.StartInfo = new ProcessStartInfo("ffmpeg", args);
