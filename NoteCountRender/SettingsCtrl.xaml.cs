@@ -35,34 +35,35 @@ PPQ: {ppq}
 Polyphony: {plph}
 Time: {cmiltime}";
         string fullText = @"Notes: {nc} / {tn} / {nr}
-BPM: {bpm}2
-True BPM: {truebpm}
+BPM: {bpm}
+BPM(True): {truebpm}
 NPS: {mnps} - {nps}
 Polyphony: {mplph} - {plph}
-Seconds: {currsec} / {totalsec}.0 / {remsec}
+Seconds: {currsec} / {totalsec} / {remsec}
 Time: {currtime} / {totaltime} / {remtime}
 Time(ms): {cmiltime} / {tmiltime} / {rmiltime}
-Time: {cftime} / {tftime}
+Time(frame): {cfrtime} / {tfrtime} / {rfrtime}
 Ticks: {currticks} / {totalticks} / {remticks}
 Bars: {currbars} / {totalbars} / {rembars}
+Frames: {currframes} / {totalframes} / {remframes}
 PPQ: {ppq}
 Time Signature: {tsn}/{tsd}
 Average NPS: {avgnps}
 Average NPQ: {avgnpq}
-Frames: {currframes} / {totalframes} / {remframes}
 
-Progress - 
-Notes: {np}
-Ticks: {ticksp}
-Time: {timep}
+-----Progress-----
+Notes: {notep}%
+Ticks: {tickp}%
+Time: {timep}%
 
-Video Information - 
+-----Video Info-----
 FPS: {fps}
 Width: {vwidth}
 Height: {vheight}";
-        string mtexText = @"TIME:{cmiltime}/{tmiltime}.000  BPM:{bpm}2  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}  POLYPHONY:{mplph} - {plph}";
+        string MIDITrail = @"TIME:{cmiltime}/{tmiltime}  BPM:{bpm}  BEAT:{tsn}/{tsd}  BAR:{currbars}/{totalbars}  NOTES:{nc}/{tn}";
 
         bool initialised = false;
+        bool Reloading = false;
 
         string templateFolder = "Plugins\\Assets\\NoteCounterMod\\Templates";
 
@@ -180,7 +181,7 @@ Height: {vheight}";
             }
             try
             {
-                File.WriteAllText(Path.Combine(templateFolder, "default(old).txt"), defText);
+                File.WriteAllText(Path.Combine(templateFolder, "default.txt"), defText);
             }
             catch { }
             try
@@ -190,7 +191,7 @@ Height: {vheight}";
             catch { }
             try
             {
-                File.WriteAllText(Path.Combine(templateFolder, "MIDITrail+.txt"), mtexText);
+                File.WriteAllText(Path.Combine(templateFolder, "MIDITrail.txt"), MIDITrail);
             }
             catch { }
             var files = Directory.GetFiles(templateFolder).Where(f => f.EndsWith(".txt"));
@@ -204,7 +205,7 @@ Height: {vheight}";
             }
             foreach (var i in templates.Items)
             {
-                if ((string)((ComboBoxItem)i).Content == "MIDITrail+")
+                if (!Reloading && (string)((ComboBoxItem)i).Content == "MIDITrail")
                 {
                     templates.SelectedItem = i;
                     break;
@@ -214,12 +215,13 @@ Height: {vheight}";
 
         private void Templates_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!initialised) return;
+            if (!initialised || templates.SelectedIndex == -1) return;
             textTemplate.Text = templateStrings[templates.SelectedIndex];
         }
 
         private void Reload_Click(object sender, RoutedEventArgs e)
         {
+            Reloading = true;
             Reload();
         }
 
@@ -263,19 +265,63 @@ Height: {vheight}";
             if (useNothing.IsChecked) settings.thousandSeparator = Commas.Nothing;
         }
 
-        private void fontSize_Loaded(object sender, RoutedEventArgs e)
+        private void ZP(object sender, RoutedPropertyChangedEventArgs<bool> e)
         {
-
+            settings.PaddingZeroes = (bool)ZeroPadding.IsChecked;
+        }
+        private void Paddings_ValueChanged(object sender, RoutedPropertyChangedEventArgs<decimal> e)
+        {
+            settings.BPMintPad = (int)BPMint.Value;
+            settings.BPMDecPtPad = (int)BPMDecPt.Value;
+            settings.NoteCountPad = (int)NoteCount.Value;
+            settings.PolyphonyPad = (int)Polyphony.Value;
+            settings.NPSPad = (int)NPS.Value;
+            settings.TicksPad = (int)Ticks.Value;
+            settings.BarCountPad = (int)Bars.Value;
+            settings.FrCountPad = (int)Frames.Value;
         }
 
-        private void MIDITrail_Loaded(object sender, RoutedEventArgs e)
+        private void SetDefault_Click(object sender, RoutedEventArgs e)
         {
-            //settings.AdditionalZeroes = (bool)MIDITrail.IsChecked;
+            settings.BPMintPad = 3;
+            settings.BPMDecPtPad = 2;
+            settings.NoteCountPad = 5;
+            settings.PolyphonyPad = 3;
+            settings.NPSPad = 3;
+            settings.TicksPad = 5;
+            settings.BarCountPad = 3;
+            settings.FrCountPad = 5;
         }
 
-        private void MT(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        private void NewProfile_Click(object sender, RoutedEventArgs e)
         {
-            settings.AdditionalZeroes = (bool)MIDITrail.IsChecked;
+            if (profileName.Text == "")
+            {
+                MessageBox.Show("Please write a name for the profile");
+                return;
+            }
+            profileName.Text = profileName.Text.Replace(".txt", "");
+            if (String.Compare(profileName.Text, "default", true) == 0 ||
+                String.Compare(profileName.Text, "full", true) == 0 ||
+                String.Compare(profileName.Text, "miditrail", true) == 0)
+            {
+                MessageBox.Show("You can't override default profiles.");
+                return;
+            }
+            if (File.Exists(templateFolder + "\\" + profileName.Text + ".txt"))
+            {
+                if (MessageBox.Show("Are you sure you want to override the profile \"" + profileName.Text + "\"?", "Override Profile", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                {
+                    return;
+                }
+            }
+            try
+            {
+                File.WriteAllText(Path.Combine(templateFolder, profileName.Text + ".txt"), textTemplate.Text);
+            }
+            catch { }
+            Reloading = true;
+            Reload();
         }
     }
 }

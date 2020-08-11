@@ -34,7 +34,7 @@ namespace ZenithInstaller
             Dispatcher.Invoke(() =>
             {
                 dlProgress.Visibility = Visibility.Visible;
-                dlProgress.Content = (Math.Round(((double)dl / total), 2, MidpointRounding.AwayFromZero) * 10) + "% of " + (Math.Round(total / 100000.0) / 10) + "mb";
+                dlProgress.Content = (Math.Round(((double)dl / total * 1000.0)) / 10) + "% of " + (Math.Round(total / 100000.0) / 10) + "mb";
             });
         }
 
@@ -42,8 +42,10 @@ namespace ZenithInstaller
         {
             Task.Run(() =>
             {
+#if !DEBUG
                 try
                 {
+#endif
                     Stream data;
                     if(Environment.Is64BitOperatingSystem) data = ZenithUpdates.DownloadAssetDataProgressive(ZenithUpdates.DataAssetName64, ProgressCallbac);
                     else data = ZenithUpdates.DownloadAssetDataProgressive(ZenithUpdates.DataAssetName32, ProgressCallbac);
@@ -56,12 +58,14 @@ namespace ZenithInstaller
                     data.Close();
                     Program.FinalizeInstall();
                     Dispatcher.Invoke(() => Close());
+#if !DEBUG
                 }
                 catch (Exception ex)
                 {
                     exception = ex;
                     Dispatcher.Invoke(() => Close());
                 }
+#endif
             });
         }
     }

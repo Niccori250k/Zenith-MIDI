@@ -45,12 +45,13 @@ namespace ZenithEngine
 
         public int maxTrackBufferSize = 10000;
 
-        public bool useBitrate = false;
-        public bool usePNG = false;
+        public bool useBitrate = true;
+        public bool CustomFFmpeg = false;
         public int bitrate = 20000;
-        public int crf = 0;
+        public int crf = 17;
         public string crfPreset = "medium";
         public bool ffmpegDebug = false;
+        public string ffoption = "";
 
         public bool showNoteCount = false;
         public bool showNotesRendered = false;
@@ -70,8 +71,8 @@ namespace ZenithEngine
 
         public bool ignoreColorEvents = false;
 
-        public long lastyBGChangeTime = -1;
-        public Bitmap BGImage = null;
+        public long lastBGChangeTime = -1;
+        public string BGImage = null;
 
         public event Action PauseToggled;
         public bool Paused

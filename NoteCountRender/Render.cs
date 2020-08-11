@@ -12,6 +12,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using ZenithEngine.UI;
+using System.Windows.Controls;
 
 namespace NoteCountRenderMod
 {
@@ -37,7 +38,7 @@ namespace NoteCountRenderMod
 
         public string Name => "Note Counter Mod";
 
-        public string Description => "Generate note counts and other midi statistics.\nMod version by Niccori 250k";
+        public string Description => "Generate note counts and other midi statistics.\n(Mod version by Niccori 250k)";
 
         public string LanguageDictName { get; } = "notecounter";
 
@@ -64,29 +65,7 @@ namespace NoteCountRenderMod
         RenderSettings renderSettings;
         Settings settings;
 
-        //NumberSelect NumberSelect;
-
         GLTextEngine textEngine;
-
-        public List<long> DigitOrg(List<long> Numbers)
-        {
-            long Digits = 100000000;
-            for (int i = 0; i < Numbers.Count()-1; i++)
-            {
-                if (Numbers[i] > Digits)
-                {
-                    Numbers[i+1] += Numbers[i] / Digits;
-                    Numbers[i] %= Digits;
-                }
-            }
-            int Highest = Numbers.Count() - 1;
-            if (Numbers[Highest] > Digits)
-            {
-                Numbers.Add(Numbers[Highest] / Digits);
-                Numbers[Highest] %= Digits;
-            }
-            return Numbers;
-        }
         public void Dispose()
         {
             textEngine.Dispose();
@@ -112,14 +91,11 @@ namespace NoteCountRenderMod
             }
             textEngine.SetFont(font, fontStyle, fontSize);
             noteCount = 0;
-            Mplph = 0;
             nps = 0;
             Mnps = 0;
-            //npq = 0;
-            //Mnpq = 0;
             frames = 0;
+            Mplph = 0;
             notesHit = new LinkedList<long>();
-            //Array.Resize(ref ncl, CurrentMidi.division);
             Initialized = true;
 
             if (settings.saveCsv && settings.csvOutput != "")
@@ -139,15 +115,12 @@ namespace NoteCountRenderMod
         }
 
         long noteCount = 0;
-        double nps = 0;
-        double Mnps = 0;
+        long nps = 0;
+        long Mnps = 0;
         int frames = 0;
         long currentNotes = 0;
         long polyphony = 0;
         long Mplph = 0;
-        //long npq = 0;
-        //long Mnpq = 0;
-        //long[] ncl = new long[0];
         
         LinkedList<long> notesHit = new LinkedList<long>();
 
@@ -191,7 +164,6 @@ namespace NoteCountRenderMod
                             if (n.end > midiTime || !n.hasEnded)
                             {
                                 polyphony++;
-                                if (Mplph < polyphony) Mplph = polyphony;
                             }
                             else if (n.meta != null)
                             {
@@ -211,34 +183,18 @@ namespace NoteCountRenderMod
                 while (notesHit.Count > renderSettings.fps) notesHit.RemoveFirst();
                 nps = notesHit.Sum();
                 if (Mnps < nps) Mnps = nps;
-                /*ncl[(int)((long)midiTime % CurrentMidi.division)] = noteCount;
-                if ((long)midiTime % CurrentMidi.division == CurrentMidi.division - 1)
-                {
-                    npq = ncl[CurrentMidi.division - 1] - ncl[0];
-                }
-                else
-                {
-                    npq = ncl[(int)((long)midiTime % CurrentMidi.division)] - ncl[(int)((long)midiTime % CurrentMidi.division + 1)];
-                }
-                if (Mnpq < npq) Mnpq = npq;*/
+                if (Mplph < polyphony) Mplph = polyphony;
+                frames++;
             }
 
             double tempo = Tempo;
-
-            int seconds = (int)Math.Floor((double)frames  * 10 / renderSettings.fps) / 10;
-            double dseconds = Math.Floor((double)frames  * 10 / renderSettings.fps) / 10;
-            int milliseconds = (int)Math.Floor((double)frames * 1000 / renderSettings.fps);
-            int totalsec = (int)Math.Floor(CurrentMidi.secondsLength / 1000);
-            //double totaldsec = CurrentMidi.secondsLength;
-            int totalframes = (int)Math.Ceiling(CurrentMidi.secondsLength / 1000 * renderSettings.fps);
-            //int totalmsec = (int)Math.Floor(CurrentMidi.millisecondsLength);
+            
+            int seconds = (int)Math.Floor((double)frames * 1000 / renderSettings.fps);
+            int totalsec = (int)Math.Floor(CurrentMidi.secondsLength * 1000);
+            int totalframes = (int)Math.Ceiling(CurrentMidi.secondsLength * renderSettings.fps);
             if (seconds > totalsec) seconds = totalsec;
-            TimeSpan time = new TimeSpan(0, 0, seconds);
-            TimeSpan miltime = new TimeSpan(0, 0, 0, 0, milliseconds);
-            TimeSpan totaltime = new TimeSpan(0, 0, totalsec);
-            TimeSpan totalmiltime = new TimeSpan(0, 0, 0, 0, (int)Math.Floor(CurrentMidi.secondsLength));
-            if (time > totaltime) time = totaltime;
-            if (!renderSettings.Paused) frames++;
+            TimeSpan time = new TimeSpan(0, 0, 0, 0, seconds);
+            TimeSpan totaltime = new TimeSpan(0, 0, 0, 0, totalsec);
             if (frames > totalframes) frames = totalframes;
 
             double barDivide = (double)CurrentMidi.division * CurrentMidi.timeSig.numerator / CurrentMidi.timeSig.denominator * 4;
@@ -249,95 +205,72 @@ namespace NoteCountRenderMod
             long bar = (long)Math.Floor(limMidiTime / barDivide) + 1;
             long maxbar = (long)Math.Floor(CurrentMidi.tickLength / barDivide);
             if (bar > maxbar) bar = maxbar;
-
+            string fzp = new string('0', renderSettings.fps.ToString().Length);
+            
             Func<string, Commas, string> replace = (text, separator) =>
             {
+                Zeroes zeroes = new Zeroes();
                 string sep = "";
-                string totaldsec = totalsec.ToString(sep + "0");
-                int bpmdigits = 2;
-                string digits = "0." + new string('0', bpmdigits);
-                string bpmzp = "0";
-                string notezp = "0";
-                string barzp = "0";
-                string Mzp = "000000";
-                string npszp = "0";
-                string plphzp = "0";
-                string tickzp = "0";
-                if (Regex.IsMatch(text, @"{totalsec}\.(\d)[^\d]"))
+                if (separator == Commas.Comma) sep = "#,";
+                if (settings.PaddingZeroes)
                 {
-                    Match match = Regex.Match(text, @"{totalsec}\.(\d)[^\d]");
-                    totaldsec = totaldsec + "." + match.Groups[1].Value;
-                }
-                if (Regex.IsMatch(text, @"{bpm}(\d+)"))
-                {
-                    Match match = Regex.Match(text, @"{bpm}(\d+)");
-                    bpmdigits = int.Parse(match.Groups[1].Value);
-                    if (bpmdigits > 12) bpmdigits = 12;
-                }
-                double tdsec = double.Parse(totaldsec);
-                if (separator == Commas.Comma) sep = "#,##";
-                if (miltime > totalmiltime) miltime = totalmiltime;
-                if (dseconds > tdsec) dseconds = tdsec;
-                if (settings.AdditionalZeroes) {
-                    digits = "000." + new string('0', bpmdigits);
-                    bpmzp = "000.00";
-                    notezp = "00000";
-                    barzp = "000";
-                    npszp = "000";
-                    plphzp = "000";
-                    tickzp = "00000";
+                    zeroes.bpm = new string('0', settings.BPMintPad) +"." + new string('0', settings.BPMDecPtPad);
+                    zeroes.nc = new string('0', settings.NoteCountPad);
+                    zeroes.plph = new string('0', settings.PolyphonyPad);
+                    zeroes.nps = new string('0', settings.NPSPad);
+                    zeroes.tick = new string('0', settings.TicksPad);
+                    zeroes.bars = new string('0', settings.BarCountPad);
+                    zeroes.frms = new string('0', settings.FrCountPad);
                 }
 
-                if (bpmdigits == 0) digits = "0";
-                text = Regex.Replace(text, @"{bpm}\d+", Math.Round(tempo, bpmdigits, MidpointRounding.AwayFromZero).ToString(digits));
-                text = text.Replace("{bpm}", Math.Round(tempo, 2, MidpointRounding.AwayFromZero).ToString(bpmzp));
+                text = text.Replace("{bpm}", tempo.ToString(zeroes.bpm));
                 text = text.Replace("{truebpm}", tempo.ToString());
 
-                text = text.Replace("{nc}", noteCount.ToString(sep + notezp));
-                text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + notezp));
-                text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + notezp));
+                text = text.Replace("{nc}", noteCount.ToString(sep + zeroes.nc));
+                text = text.Replace("{nr}", (CurrentMidi.noteCount - noteCount).ToString(sep + zeroes.nc));
+                text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + zeroes.nc));
 
+                text = text.Replace("{nps}", nps.ToString(sep + zeroes.nps));
+                text = text.Replace("{mnps}", Mnps.ToString(sep + zeroes.nps));
+                text = text.Replace("{plph}", polyphony.ToString(sep + zeroes.plph));
+                text = text.Replace("{mplph}", Mplph.ToString(sep + zeroes.plph));
 
-                text = text.Replace("{nps}", Math.Round(nps).ToString(sep + npszp));
-                text = text.Replace("{mnps}", Math.Round(Mnps).ToString(sep + npszp));
-                text = text.Replace("{plph}", polyphony.ToString(sep + plphzp));
-                text = text.Replace("{mplph}", Mplph.ToString(sep + plphzp));
-                //text = text.Replace("{npq}", npq.ToString(sep + "0"));
-                //text = text.Replace("{mnpq}", Mnpq.ToString(sep + "0"));
-
-                text = text.Replace("{currsec}", dseconds.ToString(sep + "0.0"));
+                text = text.Replace("{currsec}", ((double)(seconds / 100) / 10).ToString(sep + "0.0"));
                 text = text.Replace("{currtime}", time.ToString("mm\\:ss"));
-                text = text.Replace("{cmiltime}", miltime.ToString("mm\\:ss\\.fff"));
-                text = Regex.Replace(text, @"{totalsec}\.\d", totaldsec);
+                text = text.Replace("{cmiltime}", time.ToString("mm\\:ss\\.fff"));
+                text = text.Replace("{cfrtime}", time.ToString("mm\\:ss") + ";" + (frames % renderSettings.fps).ToString(fzp));
+
+                text = text.Replace("{totalsec}", ((double)(totalsec / 100) / 10).ToString(sep + "0.0"));
                 text = text.Replace("{totaltime}", totaltime.ToString("mm\\:ss"));
-                text = text.Replace("{remsec}", (tdsec - dseconds).ToString(sep + "0.0"));
+                text = text.Replace("{tmiltime}", totaltime.ToString("mm\\:ss\\.fff"));
+                text = text.Replace("{tfrtime}", totaltime.ToString("mm\\:ss") + ";" + (totalframes % renderSettings.fps).ToString(fzp));
+
+                text = text.Replace("{remsec}", ((double)((totalsec - seconds) / 100) / 10).ToString(sep + "0.0"));
                 text = text.Replace("{remtime}", (totaltime - time).ToString("mm\\:ss"));
-                text = text.Replace("{tmiltime}", totalmiltime.ToString("mm\\:ss\\.fff"));
-                text = text.Replace("{rmiltime}", (totalmiltime - miltime).ToString("mm\\:ss\\.fff"));
-                text = text.Replace("{cftime}", time.ToString("mm\\:ss") + ":" + (frames % renderSettings.fps).ToString("0"));
-                text = text.Replace("{tftime}", totaltime.ToString("mm\\:ss") + ":" + (totalframes % renderSettings.fps).ToString("0"));
+                text = text.Replace("{rmiltime}", (totaltime - time).ToString("mm\\:ss\\.fff"));
+                text = text.Replace("{rfrtime}", (totaltime - time).ToString("mm\\:ss") + ";" + ((totalframes - frames + renderSettings.fps) % renderSettings.fps).ToString(fzp));
 
-                text = text.Replace("{currticks}", (limMidiTime).ToString(sep + tickzp));
-                text = text.Replace("{totalticks}", (CurrentMidi.tickLength).ToString(sep + tickzp));
-                text = text.Replace("{remticks}", (CurrentMidi.tickLength - limMidiTime).ToString(sep + tickzp));
+                text = text.Replace("{currticks}", (limMidiTime).ToString(sep + zeroes.tick));
+                text = text.Replace("{totalticks}", (CurrentMidi.tickLength).ToString(sep + zeroes.tick));
+                text = text.Replace("{remticks}", (CurrentMidi.tickLength - limMidiTime).ToString(sep + zeroes.tick));
 
-                text = text.Replace("{currbars}", bar.ToString(sep + barzp));
-                text = text.Replace("{totalbars}", maxbar.ToString(sep + barzp));
-                text = text.Replace("{rembars}", (maxbar - bar).ToString(sep + barzp));
+                text = text.Replace("{currbars}", bar.ToString(sep + zeroes.bars));
+                text = text.Replace("{totalbars}", maxbar.ToString(sep + zeroes.bars));
+                text = text.Replace("{rembars}", (maxbar - bar).ToString(sep + zeroes.bars));
 
                 text = text.Replace("{ppq}", CurrentMidi.division.ToString());
                 text = text.Replace("{tsn}", CurrentMidi.timeSig.numerator.ToString());
                 text = text.Replace("{tsd}", CurrentMidi.timeSig.denominator.ToString());
-                text = text.Replace("{avgnps}", ((double)CurrentMidi.noteCount / (double)totalsec).ToString(sep + "0.00"));
+                text = text.Replace("{avgnps}", ((double)CurrentMidi.noteCount / (double)CurrentMidi.secondsLength).ToString(sep + "0.00"));
                 text = text.Replace("{avgnpq}", ((double)CurrentMidi.noteCount / (double)CurrentMidi.division).ToString(sep + "0.00"));
 
-                text = text.Replace("{currframes}", frames.ToString());
-                text = text.Replace("{totalframes}", totalframes.ToString());
-                text = text.Replace("{remframes}", (totalframes - frames).ToString());
+                text = text.Replace("{currframes}", frames.ToString(sep + zeroes.frms));
+                text = text.Replace("{totalframes}", totalframes.ToString(sep + zeroes.frms));
+                text = text.Replace("{remframes}", (totalframes - frames).ToString(sep + zeroes.frms));
 
-                text = text.Replace("{np}", (noteCount * 1000000 / CurrentMidi.noteCount).ToString(Mzp).Insert(2, ".") + "%");
-                text = text.Replace("{ticksp}", (limMidiTime * 1000000 / CurrentMidi.tickLength).ToString(Mzp).Insert(2, ".") + "%");
-                text = text.Replace("{timep}", (miltime.TotalMilliseconds * 1000000 / totalmiltime.TotalMilliseconds).ToString(Mzp).Insert(2, ".") + "%");
+                text = text.Replace("{notep}", (((decimal)noteCount * 1000000 / (decimal)CurrentMidi.noteCount) / 10000).ToString("00.0000"));
+                text = text.Replace("{tickp}", (((decimal)limMidiTime * 1000000 / (decimal)CurrentMidi.tickLength) / 10000).ToString("00.0000"));
+                text = text.Replace("{timep}", (((decimal)seconds * 1000000 / (decimal)totalsec) / 10000).ToString("00.0000"));
 
                 text = text.Replace("{fps}", renderSettings.fps.ToString());
                 text = text.Replace("{vwidth}", (renderSettings.width / renderSettings.downscale).ToString());
@@ -346,8 +279,8 @@ namespace NoteCountRenderMod
             };
 
 
-            string renderText = replace(settings.text, settings.thousandSeparator);
-            Regex.Replace(renderText, @"\[(.*?)\]", "{" + Regex.Match(renderText, @"\[(.*?)\]").Groups[1].Value + "}");
+            string renderText = settings.text;
+            renderText = replace(renderText, settings.thousandSeparator);
 
             if (settings.textAlignment == Alignments.TopLeft)
             {

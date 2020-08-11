@@ -257,12 +257,12 @@ void main()
             {
                 double fstep = ((double)midi.division / lastTempo) * (1000000 / settings.fps);
                 double offset = -midiTime / fstep / settings.fps;
-                offset = Math.Round(offset, 2, MidpointRounding.AwayFromZero);
+                offset = Math.Round(offset * 100) / 100;
                 args = "" +
                     " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
-                    " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" +
-                    " -vf vflip -pix_fmt yuv420p -acodec flac -strict -2";
+                    " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" + " -vf vflip -pix_fmt yuv420p ";
+                args += settings.CustomFFmpeg ? "" : "-vcodec libx264 -acodec aac";
             }
             else
             {
@@ -270,19 +270,20 @@ void main()
                     " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
                     " -strict -2" +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
-                    " -vf vflip -pix_fmt yuv420p";
+                    " -vf vflip -pix_fmt yuv420p ";
+                args += settings.CustomFFmpeg ? "" : "-vcodec libx264";
             }
             if (settings.useBitrate)
             {
-                args += " -c:v libx264" + 
-                    " -b:v " + settings.bitrate + "k" +
+                args += " -b:v " + settings.bitrate + "k" +
                     " -maxrate " + settings.bitrate + "k" +
                     " -minrate " + settings.bitrate + "k";
             }
-            else if (settings.usePNG)
+            else if (settings.CustomFFmpeg)
             {
-                args += " -c:v png";
+                args += settings.ffoption;
             }
+            else
             {
                 args += " -preset " + settings.crfPreset + " -crf " + settings.crf;
             }
@@ -478,7 +479,7 @@ void main()
             {
                 if (!settings.Paused || settings.forceReRender)
                 {
-                    if (settings.lastyBGChangeTime != lastBGChangeTime)
+                    if (settings.lastBGChangeTime != lastBGChangeTime)
                     {
                         if (settings.BGImage == null)
                         {
@@ -488,8 +489,18 @@ void main()
                         else
                         {
                             if (bgTexID == -1) bgTexID = GL.GenTexture();
-                            loadImage(settings.BGImage, bgTexID, false, true);
+                            try
+                            {
+                                loadImage(new Bitmap(settings.BGImage), bgTexID, false, true);
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Couldn't load image");
+                                if (bgTexID != -1) GL.DeleteTexture(bgTexID);
+                                bgTexID = -1;
+                            }
                         }
+                        lastBGChangeTime = settings.lastBGChangeTime;
                     }
 
                     lock (render)
@@ -636,6 +647,15 @@ void main()
 
                 if (settings.ffRender)
                 {
+                    if (ffmpegvideo.HasExited || (settings.ffRenderMask && ffmpegmask.HasExited))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("FFMPEG process closed unexpectedly!");
+                        Console.WriteLine("Use 'ffmpeg debug' for more advanced info.");
+                        Console.ResetColor();
+                        settings.running = false;
+                    }
+
                     if (!settings.ffRenderMask)
                         GL.UseProgram(postShader);
                     else
