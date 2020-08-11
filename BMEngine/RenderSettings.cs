@@ -25,8 +25,8 @@ namespace ZenithEngine
     {
         public int fps = 60;
 
-        public int width = 1920;
-        public int height = 1080;
+        public int width = 2560;
+        public int height = 1440;
         public int downscale = 1;
 
         public bool ffRender = false;
@@ -45,10 +45,10 @@ namespace ZenithEngine
 
         public int maxTrackBufferSize = 10000;
 
-        public bool useBitrate = true;
-        public bool CustomFFmpeg = false;
+        public bool useBitrate = false;
+        public bool CustomFFmpeg = true;
         public int bitrate = 20000;
-        public int crf = 17;
+        public int crf = 0;
         public string crfPreset = "medium";
         public bool ffmpegDebug = false;
         public string ffoption = "";

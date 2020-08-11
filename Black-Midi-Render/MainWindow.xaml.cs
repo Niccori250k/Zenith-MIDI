@@ -177,7 +177,7 @@ namespace Zenith_MIDI
         bool foundOmniMIDI = true;
         bool OmniMIDIDisabled = false;
 
-        string defaultPlugin = "NoteCounterMod";
+        string defaultPlugin = "NoteCountRenderMod";
 
         Settings metaSettings = new Settings();
 
@@ -299,7 +299,7 @@ namespace Zenith_MIDI
                 var sett = new JObject();
                 sett.Add("defaultBackground", "");
                 sett.Add("ignoreKDMAPI", "false");
-                sett.Add("defaultPlugin", "Classic");
+                sett.Add("defaultPlugin", "NoteCountRenderMod");
                 sett.Add("ignoreLanguageUpdates", "false");
                 File.WriteAllText("Settings/settings.json", JsonConvert.SerializeObject(sett));
             }
@@ -808,13 +808,7 @@ namespace Zenith_MIDI
             if ((bool)audio.ShowDialog())
             {
                 audioPath.Text = audio.FileName;
-                if (FFmpeg.IsChecked)
-                {
-                    FFmpegOptions.Text = " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
-                                         " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
-                                         (includeAudio.IsChecked ? " -itsoffset " + " -i \"" + audioPath.Text + "\"" : "") +
-                                         " -vf vflip -pix_fmt yuv420p ";
-                }
+                ChangeFFOption();
             }
         }
 
@@ -875,59 +869,59 @@ namespace Zenith_MIDI
                 case "540p(qHD)":
                     viewWidth.Value = 960;
                     viewHeight.Value = 540;
-                    break;
+                     break;
                 case "720p(HD)":
                     viewWidth.Value = 1280;
                     viewHeight.Value = 720;
-                    break;
+                     break;
                 case "1080p(FHD)":
                     viewWidth.Value = 1920;
                     viewHeight.Value = 1080;
-                    break;
+                     break;
                 case "1440p(WQHD)":
                     viewWidth.Value = 2560;
                     viewHeight.Value = 1440;
-                    break;
+                     break;
                 case "4K(UHD)":
                     viewWidth.Value = 3840;
                     viewHeight.Value = 2160;
-                    break;
+                     break;
                 case "5K":
                     viewWidth.Value = 5120;
                     viewHeight.Value = 2880;
-                    break;
+                     break;
                 case "(17M)":
                     viewWidth.Value = 5488;
                     viewHeight.Value = 3088;
-                    break;
+                     break;
                 case "8K":
                     viewWidth.Value = 7680;
                     viewHeight.Value = 4320;
-                    break;
+                     break;
                 case "16K":
                     viewWidth.Value = 15360;
                     viewHeight.Value = 8640;
-                    break;
+                     break;
                 case "32K":
                     viewWidth.Value = 30720;
                     viewHeight.Value = 17280;
-                    break;
+                     break;
                 case "64K":
                     viewWidth.Value = 61440;
                     viewHeight.Value = 34560;
-                    break;
+                     break;
                 case "128K":
                     viewWidth.Value = 122880;
                     viewHeight.Value = 69120;
-                    break;
+                     break;
                 case "256K":
                     viewWidth.Value = 245760;
                     viewHeight.Value = 138240;
-                    break;
+                     break;
                 case "512K":
                     viewWidth.Value = 491520;
                     viewHeight.Value = 276480;
-                    break;
+                     break;
                 case "1M":
                     viewWidth.Value = 983040;
                     viewHeight.Value = 552960;
@@ -939,6 +933,7 @@ namespace Zenith_MIDI
                 default:
                     break;
             }
+            ChangeFFOption();
         }
 
         private void LanguageSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1094,21 +1089,30 @@ namespace Zenith_MIDI
 
         private void FFmpeg_Checked(object sender, RoutedEventArgs e)
         {
-            FFmpegOptions.Text = " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
-                                 " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
-                                 (includeAudio.IsChecked ? " -itsoffset " + " -i \"" + audioPath.Text + "\"" : "") +
-                                 " -vf vflip -pix_fmt yuv420p ";
+            ChangeFFOption();
         }
 
         private void includeAudio_CheckToggled(object sender, RoutedEventArgs e)
         {
-            if (FFmpeg.IsChecked)
-            {
-                FFmpegOptions.Text = " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
-                                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
-                                     (includeAudio.IsChecked ? " -itsoffset " + " -i \"" + audioPath.Text + "\"" : "") +
-                                     " -vf vflip -pix_fmt yuv420p ";
-            }
+            ChangeFFOption();
+        }
+
+        private void ChangeFFOption()
+        {
+            FFmpegOptions.Text = " -f rawvideo -s " + viewWidth.Value + "x" + viewHeight.Value +
+                                 " -pix_fmt rgb32 -r " + viewFps.Value + " -i -" +
+                                 (includeAudio.IsChecked ? " -itsoffset " + " -i \"" + audioPath.Text + "\"" : "") +
+                                 " -vf vflip -pix_fmt yuv420p ";
+        }
+
+        private void viewSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<decimal> e)
+        {
+            ChangeFFOption();
+        }
+
+        private void viewFps_ValueChanged(object sender, RoutedPropertyChangedEventArgs<decimal> e)
+        {
+            ChangeFFOption();
         }
     }
 

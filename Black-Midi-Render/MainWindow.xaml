@@ -205,11 +205,11 @@
                                                 <StackPanel>
                                                     <DockPanel LastChildFill="False" Margin="0,0,0,5" HorizontalAlignment="Left">
                                                         <Label Content="{DynamicResource width}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>
-                                                        <ui:NumberSelect x:Name="viewWidth" Maximum="1966080" Minimum="1" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="10,0,0,0"  />
+                                                        <ui:NumberSelect x:Name="viewWidth" Maximum="1966080" Minimum="1" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="10,0,0,0" ValueChanged="viewSize_ValueChanged"/>
                                                     </DockPanel>
                                                     <DockPanel LastChildFill="False" HorizontalAlignment="Left">
                                                         <Label Content="{DynamicResource height}" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="0,0,0,0"/>
-                                                        <ui:NumberSelect x:Name="viewHeight" Maximum="1105920" Minimum="1" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
+                                                        <ui:NumberSelect x:Name="viewHeight" Maximum="1105920" Minimum="1" Width="118" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0" ValueChanged="viewSize_ValueChanged"/>
                                                     </DockPanel>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1">
@@ -237,7 +237,7 @@
                                                     </DockPanel>
                                                     <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Left" LastChildFill="False" Margin="0,5" VerticalAlignment="Top">
                                                         <Label Content="{DynamicResource superRes}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>
-                                                        <ui:NumberSelect DockPanel.Dock="Left" x:Name="SSAAFactor" Value="1" Maximum="1024" Minimum="1" HorizontalAlignment="Left" Width="135" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}" Margin="20,0,0,0"  />
+                                                        <ui:NumberSelect DockPanel.Dock="Left" x:Name="SSAAFactor" Value="1" Maximum="1024" Minimum="1" HorizontalAlignment="Left" Width="135" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}" Margin="20,0,0,0"/>
                                                     </DockPanel>
                                                 </StackPanel>
                                             </Grid>
@@ -249,7 +249,7 @@
                                             <DockPanel HorizontalAlignment="Center" Margin="0,0,0,10">
                                                 <DockPanel LastChildFill="False" VerticalAlignment="Top" HorizontalAlignment="Left">
                                                     <Label Content="{DynamicResource fps}" HorizontalAlignment="Left" RenderTransformOrigin="1.078,0.59" DockPanel.Dock="Left" Margin="0,0,0,0"/>
-                                                    <ui:NumberSelect x:Name="viewFps" Value="60" Maximum="2162160" Minimum="1" Width="120" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0"  />
+                                                    <ui:NumberSelect x:Name="viewFps" Value="60" Maximum="2162160" Minimum="1" Width="120" IsEnabled="{Binding IsEnabled, ElementName=notPreviewingOrRendering}"  DockPanel.Dock="Left" Margin="5,0,0,0" ValueChanged="viewFps_ValueChanged"/>
                                                 </DockPanel>
                                                 <DockPanel HorizontalAlignment="Center" LastChildFill="False" Margin="20,0,0,0" VerticalAlignment="Top" >
                                                     <Label Content="{DynamicResource noteSize}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left"/>
@@ -353,7 +353,7 @@
                                 <TextBox x:Name="alphaPath" IsEnabled="False" TextWrapping="Wrap" Text="" DockPanel.Dock="Right" Margin="10,0,0,0"/>
                             </DockPanel>
                             <DockPanel Height="30" LastChildFill="False" Margin="3,30,0,0" VerticalAlignment="Top">
-                                <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="bitrateOption" Text="{DynamicResource bitrate}" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" DockPanel.Dock="Left" Margin="0,6,0,0"/>
+                                <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="bitrateOption" Text="{DynamicResource bitrate}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left" Margin="0,6,0,0"/>
                                 <ui:NumberSelect x:Name="bitrate" Maximum="2000000" Minimum="1" Value="20000" HorizontalAlignment="Left" Width="118" DockPanel.Dock="Left" Margin="10,0,0,0" >
                                     <ui:NumberSelect.IsEnabled>
                                         <MultiBinding Converter="{StaticResource AndValueConverter}">
@@ -365,7 +365,7 @@
                                 <Label Content="kbps" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left" Margin="5,0,0,0"/>
                             </DockPanel>
                             <DockPanel LastChildFill="False" Margin="5,10,0,0" VerticalAlignment="Top">
-                                <ui:BetterRadio ParentDepth="3" IsEnabled="{DynamicResource notRendering}" x:Name="crfOption" Text="CRF" HorizontalAlignment="Left" RenderTransformOrigin="5.125,1.133" DockPanel.Dock="Left"/>
+                                <ui:BetterRadio ParentDepth="3" IsEnabled="{DynamicResource notRendering}" x:Name="crfOption" Text="CRF" IsChecked="True"  HorizontalAlignment="Left" RenderTransformOrigin="5.125,1.133" DockPanel.Dock="Left"/>
                                 <ui:NumberSelect x:Name="crfFactor" Value="0" Maximum="51" Minimum="0" HorizontalAlignment="Left" Width="118" DockPanel.Dock="Left" Margin="26,0,0,0" >
                                     <ui:NumberSelect.IsEnabled>
                                         <MultiBinding Converter="{StaticResource AndValueConverter}">
@@ -394,7 +394,7 @@
                                 <Label Content="{DynamicResource crfHint}" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="10,0,0,0"/>
                             </DockPanel>
                             <DockPanel Height="30" LastChildFill="False" Margin="5,16,0,0" VerticalAlignment="Top">
-                                <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="FFmpeg" Text="{DynamicResource Custom}" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" DockPanel.Dock="Left" Margin="0,6,0,0" RadioChecked="FFmpeg_Checked" />
+                                <ui:BetterRadio IsEnabled="{DynamicResource notRendering}" ParentDepth="3" x:Name="FFmpeg" Text="{DynamicResource Custom}" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Left" Margin="0,6,0,0" RadioChecked="FFmpeg_Checked" />
                             </DockPanel>
                             <DockPanel>
                                 <TextBox AcceptsReturn="True" VerticalContentAlignment="Top" x:Name="FFmpegOptions" Margin="20,5,0,0" TextWrapping="Wrap" Height="50" Text="FFmpeg Options">
