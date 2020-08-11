@@ -252,11 +252,11 @@ void main()
         Process startNewFF(string path)
         {
             Process ffmpeg = new Process();
-            string args = "-hide_banner";
+            string args = "-hide_banner ";
             double fstep = ((double)midi.division / lastTempo) * (1000000 / settings.fps);
             double offset = -midiTime / fstep / settings.fps;
             offset = Math.Round(offset * 100) / 100;
-            args = " -f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
+            args += "-f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
                     (settings.includeAudio ? " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" : "") +
                     " -vf vflip -pix_fmt yuv420p " ;
@@ -278,8 +278,7 @@ void main()
             */
             if (settings.CustomFFmpeg)
             {
-                args = settings.ffoption;
-                args = Regex.Replace(args, @"-itsoffset\s[^\d]", "-itsoffset " + offset.ToString().Replace(",", ".") + " " + Regex.Match(args, @"-itsoffset\s([^\d])").Groups[1].Value);
+                args = Regex.Replace(settings.ffoption, @"-itsoffset\s[^\d]", "-itsoffset " + offset.ToString().Replace(",", ".") + " " + Regex.Match(settings.ffoption, @"-itsoffset\s([^\d])").Groups[1].Value);
             }
             else if (settings.useBitrate)
             {

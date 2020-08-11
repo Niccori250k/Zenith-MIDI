@@ -1099,7 +1099,7 @@ namespace Zenith_MIDI
 
         private void ChangeFFOption()
         {
-            FFmpegOptions.Text = " -f rawvideo -s " + viewWidth.Value + "x" + viewHeight.Value +
+            FFmpegOptions.Text = "-hide_banner -f rawvideo -s " + viewWidth.Value + "x" + viewHeight.Value +
                                  " -pix_fmt rgb32 -r " + viewFps.Value + " -i -" +
                                  (includeAudio.IsChecked ? " -itsoffset " + " -i \"" + audioPath.Text + "\"" : "") +
                                  " -vf vflip -pix_fmt yuv420p ";
