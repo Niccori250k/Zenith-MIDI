@@ -125,7 +125,7 @@ namespace NoteCountRenderMod
         long Mplph = 0;
         double bmpp = 0;
         double Mbmpp = 0;
-        
+
         LinkedList<long> notesHit = new LinkedList<long>();
 
         public void RenderFrame(FastList<Note> notes, double midiTime, int finalCompositeBuff)
@@ -188,7 +188,8 @@ namespace NoteCountRenderMod
                 nps = notesHit.Sum();
                 if (frames != 0 && noteCount != CurrentMidi.noteCount)
                 {
-                    bmpp = Math.Log(Math.Pow(noteCount, 2) * Math.Log(CurrentMidi.noteCount + 1) / renderSettings.fps / frames + 1) * 12;
+                    //bmpp = Math.Log(Math.Pow(noteCount, 2) * Math.Log(CurrentMidi.noteCount + 1) / renderSettings.fps / frames + 1) * Math.Log(noteCount);
+                    bmpp = Math.Log(Math.Pow(noteCount, Math.Log(Math.Log(noteCount + 1) + 1) + 1) / frames * Math.Log(2 * (nps + 1)) * renderSettings.fps * Math.Log(noteCount * CurrentMidi.noteCount + 1) + 1) * Math.Log(((double)CurrentMidi.noteCount / (double)CurrentMidi.secondsLength) * (noteCount + 1) / CurrentMidi.noteCount + 1);
                 }
                 if (Mbmpp < bmpp) Mbmpp = bmpp;
                 if (Mnps < nps) Mnps = nps;
@@ -215,7 +216,7 @@ namespace NoteCountRenderMod
             long maxbar = (long)Math.Floor(CurrentMidi.tickLength / barDivide);
             if (bar > maxbar) bar = maxbar;
             string fzp = new string('0', renderSettings.fps.ToString().Length);
-            
+
             Func<string, Commas, string> replace = (text, separator) =>
             {
                 Zeroes zeroes = new Zeroes();
