@@ -43,6 +43,8 @@ namespace NoteCountRenderMod
         public int BPMDecPtPad = 2;
         public int NoteCountPad = 5;
         public int PolyphonyPad = 3;
+        public int BMPPintPad = 3;
+        public int BMPPDecPtPad = 2;
         public int NPSPad = 3;
         public int TicksPad = 5;
         public int BarCountPad = 3;
@@ -54,6 +56,7 @@ namespace NoteCountRenderMod
         public string nc = "0";
         public string plph = "0";
         public string nps = "0";
+        public string bmpp = "0";
         public string tick = "0";
         public string bars = "0";
         public string frms = "0";

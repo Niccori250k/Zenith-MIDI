@@ -40,7 +40,7 @@ namespace NoteCountRenderMod
 
         public string Description => "Generate note counts and other midi statistics.\n(Mod version by Niccori 250k)";
 
-        public string LanguageDictName { get; } = "notecounter";
+        public string LanguageDictName { get; } = "notecountermod";
 
         public bool Initialized { get; set; } = false;
 
@@ -95,6 +95,8 @@ namespace NoteCountRenderMod
             Mnps = 0;
             frames = 0;
             Mplph = 0;
+            bmpp = 0;
+            Mbmpp = 0;
             notesHit = new LinkedList<long>();
             Initialized = true;
 
@@ -121,6 +123,8 @@ namespace NoteCountRenderMod
         long currentNotes = 0;
         long polyphony = 0;
         long Mplph = 0;
+        double bmpp = 0;
+        double Mbmpp = 0;
         
         LinkedList<long> notesHit = new LinkedList<long>();
 
@@ -182,6 +186,11 @@ namespace NoteCountRenderMod
                 notesHit.AddLast(currentNotes);
                 while (notesHit.Count > renderSettings.fps) notesHit.RemoveFirst();
                 nps = notesHit.Sum();
+                if (frames != 0 && noteCount != CurrentMidi.noteCount)
+                {
+                    bmpp = Math.Log(Math.Pow(noteCount, 2) * Math.Log(CurrentMidi.noteCount + 1) / renderSettings.fps / frames + 1) * 12;
+                }
+                if (Mbmpp < bmpp) Mbmpp = bmpp;
                 if (Mnps < nps) Mnps = nps;
                 if (Mplph < polyphony) Mplph = polyphony;
                 frames++;
@@ -218,6 +227,7 @@ namespace NoteCountRenderMod
                     zeroes.nc = new string('0', settings.NoteCountPad);
                     zeroes.plph = new string('0', settings.PolyphonyPad);
                     zeroes.nps = new string('0', settings.NPSPad);
+                    zeroes.bmpp = new string('0', settings.BMPPintPad) + "." + new string('0', settings.BMPPDecPtPad);
                     zeroes.tick = new string('0', settings.TicksPad);
                     zeroes.bars = new string('0', settings.BarCountPad);
                     zeroes.frms = new string('0', settings.FrCountPad);
@@ -231,9 +241,12 @@ namespace NoteCountRenderMod
                 text = text.Replace("{tn}", CurrentMidi.noteCount.ToString(sep + zeroes.nc));
 
                 text = text.Replace("{nps}", nps.ToString(sep + zeroes.nps));
+                text = text.Replace("{anps}", frames == 0 ? "0" : ((double)noteCount / frames * renderSettings.fps).ToString(sep + "0.00"));
                 text = text.Replace("{mnps}", Mnps.ToString(sep + zeroes.nps));
                 text = text.Replace("{plph}", polyphony.ToString(sep + zeroes.plph));
                 text = text.Replace("{mplph}", Mplph.ToString(sep + zeroes.plph));
+                text = text.Replace("{bmpp}", bmpp.ToString(sep + zeroes.bmpp));
+                text = text.Replace("{mbmpp}", Mbmpp.ToString(sep + zeroes.bmpp));
 
                 text = text.Replace("{currsec}", ((double)(seconds / 100) / 10).ToString(sep + "0.0"));
                 text = text.Replace("{currtime}", time.ToString("mm\\:ss"));

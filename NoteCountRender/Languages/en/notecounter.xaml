@@ -42,6 +42,8 @@
     <system:String x:Key="NoteCount">Notes</system:String>
     <system:String x:Key="Polyphony">Polyphony</system:String>
     <system:String x:Key="NPS">NPS</system:String>
+    <system:String x:Key="BMPPint">BMPP</system:String>
+    <system:String x:Key="BMPPfrac">(Decimal Part)</system:String>
     <system:String x:Key="Ticks">Tick</system:String>
     <system:String x:Key="Bars">Bar</system:String>
     <system:String x:Key="Frames">Frame</system:String>

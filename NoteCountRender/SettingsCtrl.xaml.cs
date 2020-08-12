@@ -37,8 +37,9 @@ Time: {cmiltime}";
         string fullText = @"Notes: {nc} / {tn} / {nr}
 BPM: {bpm}
 BPM(True): {truebpm}
-NPS: {mnps} - {nps}
+NPS: {mnps} - {anps} - {nps}
 Polyphony: {mplph} - {plph}
+BMPP: {mbmpp} - {bmpp}
 Seconds: {currsec} / {totalsec} / {remsec}
 Time: {currtime} / {totaltime} / {remtime}
 Time(ms): {cmiltime} / {tmiltime} / {rmiltime}
@@ -275,6 +276,8 @@ Height: {vheight}";
             settings.BPMDecPtPad = (int)BPMDecPt.Value;
             settings.NoteCountPad = (int)NoteCount.Value;
             settings.PolyphonyPad = (int)Polyphony.Value;
+            settings.BMPPintPad = (int)BMPPint.Value;
+            settings.BMPPDecPtPad = (int)BMPPDecPt.Value;
             settings.NPSPad = (int)NPS.Value;
             settings.TicksPad = (int)Ticks.Value;
             settings.BarCountPad = (int)Bars.Value;
@@ -288,6 +291,8 @@ Height: {vheight}";
             settings.NoteCountPad = 5;
             settings.PolyphonyPad = 3;
             settings.NPSPad = 3;
+            settings.BMPPintPad = 3;
+            settings.BMPPDecPtPad = 2;
             settings.TicksPad = 5;
             settings.BarCountPad = 3;
             settings.FrCountPad = 5;
