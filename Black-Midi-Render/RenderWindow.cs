@@ -259,7 +259,7 @@ void main()
             args += "-f rawvideo -s " + settings.width / settings.downscale + "x" + settings.height / settings.downscale +
                     " -pix_fmt rgb32 -r " + settings.fps + " -i -" +
                     (settings.includeAudio ? " -itsoffset " + offset.ToString().Replace(",", ".") + " -i \"" + settings.audioPath + "\"" : "") +
-                    " -vf vflip -pix_fmt yuv420p " ;
+                    " -vf vflip -pix_fmt yuv420p -vcodec libx264" + (settings.includeAudio ? "-acodec aac" : "") ;
             /*
             if (settings.includeAudio)
             {                
@@ -282,15 +282,13 @@ void main()
             }
             else if (settings.useBitrate)
             {
-                args += "-pix_fmt yuv420p -vcodec libx264" + (settings.includeAudio ? "-acodec aac" : "") +
-                    " -b:v " + settings.bitrate + "k" +
-                    " -maxrate " + settings.bitrate + "k" +
-                    " -minrate " + settings.bitrate + "k";
+                args += " -b:v " + settings.bitrate + "k" +
+                        " -maxrate " + settings.bitrate + "k" +
+                        " -minrate " + settings.bitrate + "k";
             }
             else
             {
-                args += "-pix_fmt yuv420p -vcodec libx264" + (settings.includeAudio ? "-acodec aac" : "") +
-                    " -preset " + settings.crfPreset + " -crf " + settings.crf;
+                args += " -preset " + settings.crfPreset + " -crf " + settings.crf;
             }
             args += " -y \"" + path + "\"";
             ffmpeg.StartInfo = new ProcessStartInfo("ffmpeg", args);
