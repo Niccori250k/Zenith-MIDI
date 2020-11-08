@@ -12,6 +12,8 @@ using OpenTK.Graphics;
 using OpenTK;
 using System.Drawing.Imaging;
 using Size = System.Drawing.Size;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace ZenithEngine
 {
@@ -327,7 +329,9 @@ void main()
             quadBufferPos = 0;
         }
 
-        private string Characters = @" qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789µ§½!""#¤%&/()=?^*@£€${[]}\~¨'-_.:,;<>|°©®±¥+`";
+        private string Characters = " qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789.:/%" +
+                                    Regex.Replace(new StreamReader("Characters.txt").ReadToEnd(), "\x00-\x20\x25\x2E-\x3A\x41-\x5A\x61-\x7A\x7F-\x9F\x2028\x2029", "");
+
         private const int charImWidth = 20;
 
         public Bitmap GenerateCharacters(int fontSize, string fontName, out Size charSize, out SizeF[] charSizes)
